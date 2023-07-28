@@ -9,14 +9,20 @@ final _theme = ThemeData(
     visualDensity: VisualDensity.adaptivePlatformDensity,
     scaffoldBackgroundColor: Constants.kWhiteColor,
     // text styles
+    textTheme:  TextTheme(
+      bodyMedium: TextStyle(
+          fontSize: 36,
+          fontWeight: FontWeight.w500,
+          color: Constants.kWhiteColor),
+    ),
 
     // elevated button
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         padding: MaterialStateProperty.all(
             const EdgeInsets.symmetric(vertical: 20, horizontal: 20)),
-        backgroundColor: MaterialStateProperty.all<Color>(Colors.pink),
-        foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+        backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+        foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
         textStyle: MaterialStateProperty.all<TextStyle>(
           const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),

@@ -7,7 +7,7 @@ class Constants {
   static const kErrorColor = Color(0XFFE61F34);
   static const kSuccessColor = Colors.green;
   static const kBlackColor = Color(0XFF000000);
-  static const kWhiteColor = Color(0XFFFFFFFF);
+  static const kWhiteColor = Colors.white;
 
   // padding
   static const kHorizontalPadding = 20.0;
