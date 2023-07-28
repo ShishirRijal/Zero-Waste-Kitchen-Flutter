@@ -9,6 +9,7 @@ final _theme = ThemeData(
     primaryColor: const Color(0XFF5A59D6),
     visualDensity: VisualDensity.adaptivePlatformDensity,
     scaffoldBackgroundColor: Constants.kWhiteColor,
+    fontFamily: GoogleFonts.poppins().fontFamily,
 
     // text styles
     textTheme: TextTheme(
