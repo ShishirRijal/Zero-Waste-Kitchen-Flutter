@@ -17,7 +17,7 @@ final _theme = ThemeData(
           fontSize: 36,
           fontWeight: FontWeight.w500,
           height: 1,
-          color: Constants.kWhiteColor),
+          color: Constants.kBlackColor),
     ),
 
     // elevated button
