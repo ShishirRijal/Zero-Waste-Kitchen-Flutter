@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:zero_waste_kitchen/utils/utils.dart';
 
 //* getter
@@ -8,6 +9,7 @@ final _theme = ThemeData(
     primaryColor: const Color(0XFF5A59D6),
     visualDensity: VisualDensity.adaptivePlatformDensity,
     scaffoldBackgroundColor: Constants.kWhiteColor,
+    textTheme: GoogleFonts.montserratTextTheme(),
     // text styles
 
     // elevated button
@@ -15,10 +17,14 @@ final _theme = ThemeData(
       style: ButtonStyle(
         padding: MaterialStateProperty.all(
             const EdgeInsets.symmetric(vertical: 20, horizontal: 20)),
-        backgroundColor: MaterialStateProperty.all<Color>(Colors.pink),
+        backgroundColor:
+            MaterialStateProperty.all<Color>(Constants.kPrimaryColor),
         foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
         textStyle: MaterialStateProperty.all<TextStyle>(
-          const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          GoogleFonts.lato(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Constants.kWhiteColor),
         ),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
