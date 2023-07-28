@@ -33,6 +33,9 @@ class LandingScreen extends StatelessWidget {
                 height: 60,
                 width: double.infinity,
                 child: ElevatedButton(
+                  style: const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Colors.white),
+                      foregroundColor: MaterialStatePropertyAll(Colors.black)),
                   onPressed: () {
                     Navigator.push(
                         context,
