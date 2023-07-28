@@ -35,7 +35,7 @@ class RoleChooseBox extends StatelessWidget {
                   Text(
                     user,
                     style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                        color: Colors.black, fontWeight: FontWeight.bold),
+                        color: Colors.black, fontWeight: FontWeight.w500),
                   ),
                 ],
               ),

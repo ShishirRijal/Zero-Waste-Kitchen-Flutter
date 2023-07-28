@@ -13,9 +13,10 @@ final _theme = ThemeData(
 
     // text styles
     textTheme: TextTheme(
-      bodyMedium: GoogleFonts.poppins(
+      bodyMedium: GoogleFonts.lato(
           fontSize: 36,
           fontWeight: FontWeight.w500,
+          height: 1,
           color: Constants.kWhiteColor),
     ),
 

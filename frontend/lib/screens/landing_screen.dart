@@ -25,6 +25,7 @@ class LandingScreen extends StatelessWidget {
               padding: const EdgeInsets.all(15.0),
               child: Text(
                 "Find local charities to donate food",
+                textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
