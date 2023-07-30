@@ -9,6 +9,15 @@ final _theme = ThemeData(
     primaryColor: const Color(0XFF5A59D6),
     visualDensity: VisualDensity.adaptivePlatformDensity,
     scaffoldBackgroundColor: Constants.kWhiteColor,
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      backgroundColor: Color(0xFFFFFFFF),
+      selectedItemColor: Colors.black,
+      selectedIconTheme: IconThemeData(
+        size: 30,
+        color: Colors.black,
+      ),
+      selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+    ),
     fontFamily: GoogleFonts.poppins().fontFamily,
 
     // text styles
@@ -18,6 +27,22 @@ final _theme = ThemeData(
           fontWeight: FontWeight.w500,
           height: 1,
           color: Constants.kBlackColor),
+    ),
+
+    //textfield
+    inputDecorationTheme: const InputDecorationTheme(
+      filled: true,
+      fillColor: Constants.kTextField,
+      border: OutlineInputBorder(
+        borderSide: BorderSide.none,
+        //removes the border of field
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+      hintStyle: TextStyle(
+        color: Constants.kGrey,
+        fontSize: 20,
+        fontWeight: FontWeight.w400,
+      ),
     ),
 
     // elevated button

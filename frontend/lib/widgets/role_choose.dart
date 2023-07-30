@@ -50,8 +50,8 @@ class RoleChooseBox extends StatelessWidget {
                     decoration: const BoxDecoration(
                       color: Constants.kPrimaryColor,
                       borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(10),
-                      ),
+                          topRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(10)),
                     ),
                     child: const Icon(
                       Icons.check,

@@ -9,6 +9,7 @@ class Constants {
   static const kBlackColor = Color(0XFF000000);
   static const kWhiteColor = Color(0XFFFFFFFF);
   static const kGrey = Colors.grey;
+  static const kTextField = Color(0xFFF5F5F5);
 
   // padding
   static const kHorizontalPadding = 20.0;
