@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zero_waste_kitchen/screens/screens.dart';
 import 'package:zero_waste_kitchen/utils/constants.dart';
 import 'package:zero_waste_kitchen/widgets/role_choose.dart';
 
@@ -139,12 +140,15 @@ class _RoleScreenState extends State<RoleScreen> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                const SizedBox(
+                SizedBox(
                   height: 60,
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: null,
-                    child: Text(
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const CreateDonationPost())),
+                    child: const Text(
                       "Continue",
                     ),
                   ),

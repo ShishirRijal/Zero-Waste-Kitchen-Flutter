@@ -26,7 +26,9 @@ class LandingScreen extends StatelessWidget {
               child: Text(
                 "Find local charities to donate food",
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Constants.kWhiteColor,
+                    ),
               ),
             ),
             Flexible(

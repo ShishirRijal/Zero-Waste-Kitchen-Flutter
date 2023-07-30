@@ -18,9 +18,7 @@ final _theme = ThemeData(
       ),
       selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
     ),
-    fontFamily: GoogleFonts
-        .poppins()
-        .fontFamily,
+    fontFamily: GoogleFonts.poppins().fontFamily,
     appBarTheme: const AppBarTheme(color: Constants.kWhiteColor, elevation: 3),
     inputDecorationTheme: const InputDecorationTheme(
       filled: true,
@@ -40,21 +38,20 @@ final _theme = ThemeData(
     ),
     // text styles
     textTheme: TextTheme(
-      bodyMedium: GoogleFonts.lato(
+      bodyMedium: GoogleFonts.montserrat(
           fontSize: 36,
           fontWeight: FontWeight.w500,
           height: 1,
           color: Constants.kBlackColor),
     ),
 
-
     // elevated button
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         padding: MaterialStateProperty.all(
-            const EdgeInsets.symmetric(vertical: 20, horizontal: 20)),
+            const EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
         backgroundColor:
-        MaterialStateProperty.all<Color>(Constants.kPrimaryColor),
+            MaterialStateProperty.all<Color>(Constants.kPrimaryColor),
         foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
         textStyle: MaterialStateProperty.all<TextStyle>(
           GoogleFonts.lato(
