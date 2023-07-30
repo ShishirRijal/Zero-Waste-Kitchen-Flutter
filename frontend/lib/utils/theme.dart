@@ -10,7 +10,23 @@ final _theme = ThemeData(
     visualDensity: VisualDensity.adaptivePlatformDensity,
     scaffoldBackgroundColor: Constants.kWhiteColor,
     fontFamily: GoogleFonts.poppins().fontFamily,
-
+    appBarTheme: const AppBarTheme(color: Constants.kWhiteColor, elevation: 3),
+    inputDecorationTheme: const InputDecorationTheme(
+      filled: true,
+      fillColor: Color.fromARGB(255, 247, 247, 251),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(12),
+        ),
+        borderSide: BorderSide(color: Constants.kBlackColor),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(12),
+        ),
+        borderSide: BorderSide(color: Constants.kPrimaryColor),
+      ),
+    ),
     // text styles
     textTheme: TextTheme(
       bodyMedium: GoogleFonts.lato(
