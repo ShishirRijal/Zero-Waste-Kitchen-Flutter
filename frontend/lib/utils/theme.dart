@@ -18,8 +18,26 @@ final _theme = ThemeData(
       ),
       selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
     ),
-    fontFamily: GoogleFonts.poppins().fontFamily,
-
+    fontFamily: GoogleFonts
+        .poppins()
+        .fontFamily,
+    appBarTheme: const AppBarTheme(color: Constants.kWhiteColor, elevation: 3),
+    inputDecorationTheme: const InputDecorationTheme(
+      filled: true,
+      fillColor: Color.fromARGB(255, 247, 247, 251),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(12),
+        ),
+        borderSide: BorderSide(color: Constants.kBlackColor),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(12),
+        ),
+        borderSide: BorderSide(color: Constants.kPrimaryColor),
+      ),
+    ),
     // text styles
     textTheme: TextTheme(
       bodyMedium: GoogleFonts.lato(
@@ -29,21 +47,6 @@ final _theme = ThemeData(
           color: Constants.kBlackColor),
     ),
 
-    //textfield
-    inputDecorationTheme: const InputDecorationTheme(
-      filled: true,
-      fillColor: Constants.kTextField,
-      border: OutlineInputBorder(
-        borderSide: BorderSide.none,
-        //removes the border of field
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      hintStyle: TextStyle(
-        color: Constants.kGrey,
-        fontSize: 20,
-        fontWeight: FontWeight.w400,
-      ),
-    ),
 
     // elevated button
     elevatedButtonTheme: ElevatedButtonThemeData(
@@ -51,7 +54,7 @@ final _theme = ThemeData(
         padding: MaterialStateProperty.all(
             const EdgeInsets.symmetric(vertical: 20, horizontal: 20)),
         backgroundColor:
-            MaterialStateProperty.all<Color>(Constants.kPrimaryColor),
+        MaterialStateProperty.all<Color>(Constants.kPrimaryColor),
         foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
         textStyle: MaterialStateProperty.all<TextStyle>(
           GoogleFonts.lato(
