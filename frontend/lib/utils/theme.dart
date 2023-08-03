@@ -43,6 +43,20 @@ final _theme = ThemeData(
           fontWeight: FontWeight.w500,
           height: 1,
           color: Constants.kBlackColor),
+
+      //headline
+      displayLarge: TextStyle(
+        fontWeight: FontWeight.w900,
+        height: 1,
+        fontSize: 36,
+        color: Constants.kBlackColor,
+      ),
+      // title
+      titleLarge: TextStyle(
+        color: Constants.kBlackColor,
+        fontSize: 20,
+        fontWeight: FontWeight.w700,
+      ),
     ),
 
     // elevated button

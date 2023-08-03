@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:zero_waste_kitchen/screens/screens.dart';
 import 'package:zero_waste_kitchen/utils/utils.dart';
 import 'screens/screens.dart';
 
@@ -15,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: theme,
-      home: const LandingScreen(),
+      home: LoginScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
