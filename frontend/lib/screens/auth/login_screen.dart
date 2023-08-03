@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:zero_waste_kitchen/screens/auth/auth_controller.dart';
 import 'package:zero_waste_kitchen/screens/auth/forgot_password_view.dart';
 import 'package:zero_waste_kitchen/screens/auth/signup_screen.dart';
-import 'package:zero_waste_kitchen/utils/constants.dart';
+import 'package:zero_waste_kitchen/utils/utils.dart';
 
 import 'custom_text_form_field.dart';
 
@@ -15,6 +18,9 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  String? emailErrorText;
+  String? passwordErrorText;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -31,34 +37,29 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 70,
                 ),
                 Text("Welcome",
                     style: Theme.of(context).textTheme.displayLarge),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Text("Back!",
                     style: Theme.of(context).textTheme.displayLarge!.copyWith(
                           color: Constants.kPrimaryColor,
                         )),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Text(
                   "Sign into your account",
-                  //  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  //  fontWeight: FontWeight.w400,
-                  // color: Constants.kGrey,
-                  //fontSize: 18,
-                  //),
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.8),
                     fontSize: 18,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 80,
                 ),
                 const Text(
@@ -69,15 +70,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 CustomTextFormField(
                   controller: emailController,
                   hintText: "Enter your email",
                   prefixIcon: Icons.email,
+                  errorText: emailErrorText,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
                 const Text(
@@ -88,15 +90,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 CustomTextFormField(
                   controller: passwordController,
                   hintText: "Create a strong password",
                   prefixIcon: Icons.lock,
+                  errorText: passwordErrorText,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Align(
@@ -125,8 +128,42 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   height: 60,
                   width: double.infinity,
-                  child:
-                      ElevatedButton(onPressed: () {}, child: Text("Continue")),
+                  child: ElevatedButton(
+                      onPressed: () async {
+                        //* check validation
+                        // check email
+                        if (!isEmailValid(emailController.text.trim())) {
+                          emailErrorText = 'Please enter a valid email';
+                        } else {
+                          emailErrorText = null;
+                          setState(() {});
+                        }
+                        // check password
+                        if (passwordController.text.trim().length < 6) {
+                          passwordErrorText =
+                              'Password must have 6 characters or more';
+                          setState(() {});
+                          return;
+                        } else {
+                          passwordErrorText = null;
+                          setState(() {});
+                        }
+                        // here all fields are validated
+                        setState(() {
+                          emailErrorText = null;
+                          passwordErrorText = null;
+                          isLoading = true;
+                        });
+                        // login user
+                        await context.read<AuthController>().login(
+                            emailController.text.trim(),
+                            passwordController.text.trim());
+
+                        isLoading = false;
+                      },
+                      child: isLoading
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : const Text("Continue")),
                 ),
                 const OptionalSignUpWidget()
               ],
