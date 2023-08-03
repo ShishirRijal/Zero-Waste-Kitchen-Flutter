@@ -64,6 +64,36 @@ class AuthController extends ChangeNotifier {
           builder: (context) =>
               const ErrorPopup(errorText: 'An unknown error occurred'));
     }
+    return false;
+  }
+
+  // forgot password
+  Future<void> resetPassword(BuildContext context, String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      // ignore: use_build_context_synchronously
+      showDialog(
+          context: context,
+          builder: (context) => const SuccessPopup(
+                message: 'Password reset email has been sent to your email',
+              ));
+    } on FirebaseAuthException catch (e) //catches errors from firebase authentication
+    {
+      String error = 'An unknown error occurred';
+
+      if (e.code == 'user-not-found') {
+        error = 'No user found for that email.';
+      } else if (e.code == 'invalid-email') {
+        error = 'Invalid email address.';
+      }
+      showDialog(
+          context: context, builder: (context) => ErrorPopup(errorText: error));
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (context) =>
+              const ErrorPopup(errorText: 'An unknown error occurred'));
+    }
   }
 
   Future<void> logout() async {

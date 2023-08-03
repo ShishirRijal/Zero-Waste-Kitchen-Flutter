@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:zero_waste_kitchen/screens/auth/custom_text_form_field.dart';
 import 'package:zero_waste_kitchen/utils/utils.dart';
+
+import 'auth_controller.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -60,7 +63,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             errorText = null;
                           });
 
-                          // TODO: Send reset password link to email
+                          context
+                              .read<AuthController>()
+                              .resetPassword(context, emailController.text);
                         },
                         child: const Text("Reset Password")),
                   ),
