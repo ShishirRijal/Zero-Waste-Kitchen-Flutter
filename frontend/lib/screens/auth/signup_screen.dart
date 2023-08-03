@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:zero_waste_kitchen/screens/auth/login_screen.dart';
+import 'package:zero_waste_kitchen/screens/main/main_screen.dart';
 
 import '../../utils/constants.dart';
+import '../../utils/helper_function.dart';
+import 'auth_controller.dart';
 import 'custom_text_form_field.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -15,6 +19,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool isLoading = false;
+  String? emailErrorText;
+  String? passwordErrorText;
 
   @override
   void dispose() {
@@ -91,6 +98,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           controller: emailController,
                           hintText: "E-mail",
                           prefixIcon: Icons.email,
+                          errorText: emailErrorText,
                         ),
                         const SizedBox(height: 20.0),
                         Text("Password",
@@ -103,6 +111,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           hintText: "Password",
                           prefixIcon: Icons.lock,
                           isPassword: true,
+                          errorText: passwordErrorText,
                         ),
                       ],
                     ),
@@ -114,11 +123,52 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 60,
                     width: double.infinity,
                     child: ElevatedButton(
-                      child: const Text("Sign Up"),
-                      onPressed: () {
-                        //
-                      },
-                    ),
+                        onPressed: () async {
+                          //* check validation
+                          // check email
+                          if (!isEmailValid(emailController.text.trim())) {
+                            emailErrorText = 'Please enter a valid email';
+                          } else {
+                            emailErrorText = null;
+                            setState(() {});
+                          }
+                          // check password
+                          if (passwordController.text.trim().length < 6) {
+                            passwordErrorText =
+                                'Password must have 6 characters or more';
+                            setState(() {});
+                            return;
+                          } else {
+                            passwordErrorText = null;
+                            setState(() {});
+                          }
+                          // here all fields are validated
+                          setState(() {
+                            emailErrorText = null;
+                            passwordErrorText = null;
+                            isLoading = true;
+                          });
+                          // login user
+                          final bool? isRegistered = await context
+                              .read<AuthController>()
+                              .signUp(context, emailController.text.trim(),
+                                  passwordController.text.trim());
+
+                          setState(() {
+                            isLoading = false;
+                          });
+                          if (isRegistered == true) {
+                            // ignore: use_build_context_synchronously
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const MainScreen()));
+                          }
+                        },
+                        child: isLoading
+                            ? const CircularProgressIndicator(
+                                color: Colors.white)
+                            : const Text("Sign Up")),
                   ),
 
                   // * Sign In, if you are already a user

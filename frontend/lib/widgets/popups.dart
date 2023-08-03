@@ -71,14 +71,18 @@ class CustomAlertPopup extends StatelessWidget {
       Text(
         text,
         textAlign: TextAlign.center,
-        style: TextStyle(color: Constants.kBlackColor, fontSize: 16),
+        style: const TextStyle(color: Constants.kBlackColor, fontSize: 16),
       ),
       if (showButton) ...[
         const SizedBox(height: 10),
         ElevatedButton(
             onPressed: onPressed,
             child: Text(buttonText,
-                style: Theme.of(context).textTheme.labelMedium)),
+                style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                      color: Constants.kWhiteColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ))),
       ]
     ]);
   }

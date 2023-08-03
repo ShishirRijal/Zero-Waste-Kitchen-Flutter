@@ -27,11 +27,14 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthController()),
         ChangeNotifierProvider(create: (_) => SharedPrefs()),
       ],
-      child: MaterialApp(
-        theme: theme,
-        home: const Wrapper(),
-        debugShowCheckedModeBanner: false,
-      ),
+      child: Builder(builder: (context) {
+        print("main.dart");
+        return MaterialApp(
+          theme: theme,
+          home: const Wrapper(),
+          debugShowCheckedModeBanner: false,
+        );
+      }),
     );
   }
 }

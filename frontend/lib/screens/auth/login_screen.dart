@@ -1,11 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zero_waste_kitchen/screens/auth/auth_controller.dart';
 import 'package:zero_waste_kitchen/screens/auth/forgot_password_view.dart';
 import 'package:zero_waste_kitchen/screens/auth/signup_screen.dart';
 import 'package:zero_waste_kitchen/utils/utils.dart';
-
 import 'custom_text_form_field.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -156,10 +154,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         });
                         // login user
                         await context.read<AuthController>().login(
+                            context,
                             emailController.text.trim(),
                             passwordController.text.trim());
 
-                        isLoading = false;
+                        setState(() {
+                          isLoading = false;
+                        });
                       },
                       child: isLoading
                           ? const CircularProgressIndicator(color: Colors.white)
