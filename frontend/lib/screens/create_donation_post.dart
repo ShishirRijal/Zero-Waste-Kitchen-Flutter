@@ -1,14 +1,18 @@
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:uuid/uuid.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:zero_waste_kitchen/models/food_order.dart' as orderModel;
 import 'package:zero_waste_kitchen/screens/sucess_donation_request.dart';
 import 'package:zero_waste_kitchen/utils/constants.dart';
 import 'package:zero_waste_kitchen/widgets/widgets.dart';
+
+import '../services/food_services.dart';
 
 enum DishCategory { veg, nonVeg }
 
@@ -32,11 +36,13 @@ class _CreateDonationPostState extends State<CreateDonationPost> {
     }
   }
 
-  DishCategory selectedCategory = DishCategory.veg;
+  orderModel.FoodType selectedCategory = orderModel.FoodType.veg;
 
   bool _isAccepted = false;
 
   final TextEditingController _foodNameController = TextEditingController();
+  final TextEditingController _foodDescriptionController =
+      TextEditingController();
   final TextEditingController _foodQuantity = TextEditingController();
   final TextEditingController cookingDate = TextEditingController(
     text: DateFormat('yyyy-MM-dd').format(
@@ -58,6 +64,59 @@ class _CreateDonationPostState extends State<CreateDonationPost> {
       DateTime.now(),
     ),
   );
+
+  DateTime convertDateTime(String inputDate, String inputTime) {
+    String dateText = inputDate;
+    String timeText = inputTime;
+
+    // Parse the date and time using the same formats
+    DateTime date = DateFormat('yyyy-MM-dd').parse(dateText);
+    DateTime time = DateFormat('h:mm a').parse(timeText);
+
+    // Combine date and time to create a new DateTime
+    DateTime combinedDateTime = date.add(Duration(
+      hours: time.hour,
+      minutes: time.minute,
+    ));
+
+    return combinedDateTime;
+  }
+
+  // ! create order
+  void createOrder() async {
+    if (_foodNameController.text.isEmpty) {
+      return showSnackBar("Please enter the food name", context);
+    } else if (_foodQuantity.text.isEmpty) {
+      return showSnackBar("Food quantity can't be empty", context);
+    } else if (_image == null) {
+      return showSnackBar("Please select an image", context);
+    } else if (_isAccepted == false) {
+      return showSnackBar("Please accept the terms and conditions", context);
+    }
+    String id = const Uuid().v4();
+    id = id.replaceAll('-', '').substring(0, 8);
+
+    orderModel.FoodOrder newOrder = orderModel.FoodOrder(
+      id: id,
+      name: _foodNameController.text.trim(),
+      description: _foodDescriptionController.text.trim(),
+      quantity: int.parse(_foodQuantity.text.trim()),
+      type: selectedCategory,
+      cookDateTime:
+          convertDateTime(cookingDate.text.trim(), cookingTime.text.trim()),
+      expireDateTime: convertDateTime(
+          expirationDate.text.trim(), expirationTime.text.trim()),
+      imageUrl: 'url to be uploaded first and then do this',
+    );
+
+    await FoodServices.addFood(context, _image!, newOrder, true).then((value) =>
+        value == true
+            ? Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const SucessDonationRequest()))
+            : null);
+  }
 
   @override
   void dispose() {
@@ -158,12 +217,12 @@ class _CreateDonationPostState extends State<CreateDonationPost> {
                 Row(
                   children: [
                     FoodType(
-                        color: selectedCategory == DishCategory.veg
+                        color: selectedCategory == orderModel.FoodType.veg
                             ? Constants.kPrimaryColor
                             : Constants.kGrey,
                         onPressed: () {
-                          if (selectedCategory != DishCategory.veg) {
-                            selectedCategory = DishCategory.veg;
+                          if (selectedCategory != orderModel.FoodType.veg) {
+                            selectedCategory = orderModel.FoodType.veg;
                             setState(() {});
                           }
                         },
@@ -172,12 +231,12 @@ class _CreateDonationPostState extends State<CreateDonationPost> {
                       width: 15,
                     ),
                     FoodType(
-                        color: selectedCategory == DishCategory.nonVeg
+                        color: selectedCategory == orderModel.FoodType.nonVeg
                             ? Constants.kPrimaryColor
                             : Constants.kGrey.shade500,
                         onPressed: () {
-                          if (selectedCategory != DishCategory.nonVeg) {
-                            selectedCategory = DishCategory.nonVeg;
+                          if (selectedCategory != orderModel.FoodType.nonVeg) {
+                            selectedCategory = orderModel.FoodType.nonVeg;
                             setState(() {});
                           }
                         },
@@ -200,6 +259,30 @@ class _CreateDonationPostState extends State<CreateDonationPost> {
                   controller: _foodNameController,
                   decoration: InputDecoration(
                     hintText: "Enter the food name",
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .labelMedium!
+                        .copyWith(color: Constants.kGrey),
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  "Food Description",
+                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      color: Constants.kGrey, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextField(
+                  minLines: 3,
+                  maxLines: 5,
+                  keyboardType: TextInputType.name,
+                  controller: _foodDescriptionController,
+                  decoration: InputDecoration(
+                    hintText: "Enter the food description",
                     hintStyle: Theme.of(context)
                         .textTheme
                         .labelMedium!
@@ -356,29 +439,13 @@ class _CreateDonationPostState extends State<CreateDonationPost> {
                   height: 60,
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
-                      if (_foodNameController.text.isEmpty) {
-                        return showSnackBar(
-                            "Please enter the food name", context);
-                      } else if (_foodQuantity.text.isEmpty) {
-                        return showSnackBar(
-                            "Food quantity can't be empty", context);
-                      } else if (_isAccepted == false) {
-                        return showSnackBar(
-                            "Please accept the terms and conditions", context);
-                      }
-                      // all fields are validated
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const SucessDonationRequest()));
-                    },
+                    onPressed: createOrder,
                     child: const Text(
-                      "Next",
+                      "Save",
                     ),
                   ),
-                )
+                ),
+                const SizedBox(height: 20),
               ],
             ),
           ),
