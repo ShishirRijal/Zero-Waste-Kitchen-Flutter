@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
-import 'package:zero_waste_kitchen/screens/auth/auth_controller.dart';
 import 'package:zero_waste_kitchen/screens/main/donation_screen.dart';
 import 'package:zero_waste_kitchen/screens/main/history_screen.dart';
 import 'package:zero_waste_kitchen/screens/main/home_screen.dart';

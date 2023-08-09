@@ -36,7 +36,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
-      style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
+      style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
       onChanged: (value) {
         // * Check for custom onChanged function, and proceed accordingly
         if (widget.onChanged != null) {
@@ -68,7 +68,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           ),
           errorMaxLines: 1,
           errorText: widget.errorText,
-          errorStyle: TextStyle(
+          errorStyle: const TextStyle(
             fontSize: 16,
             color: Colors.red,
           ),

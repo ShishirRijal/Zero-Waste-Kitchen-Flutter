@@ -164,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       child: isLoading
                           ? const CircularProgressIndicator(color: Colors.white)
-                          : const Text("Continue")),
+                          : const Text("Login")),
                 ),
                 const OptionalSignUpWidget()
               ],

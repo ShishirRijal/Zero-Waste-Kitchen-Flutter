@@ -28,10 +28,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SharedPrefs()),
       ],
       child: Builder(builder: (context) {
-        print("main.dart");
         return MaterialApp(
           theme: theme,
-          home: const Wrapper(),
+          home: const AuthWrapper(),
           debugShowCheckedModeBanner: false,
         );
       }),

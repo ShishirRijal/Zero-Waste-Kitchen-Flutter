@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:zero_waste_kitchen/screens/role_screen.dart';
+import 'package:zero_waste_kitchen/screens/auth/login_screen.dart';
 import 'package:zero_waste_kitchen/utils/constants.dart';
+import 'package:zero_waste_kitchen/utils/shared_prefs.dart';
 
-class LandingScreen extends StatelessWidget {
+class LandingScreen extends StatefulWidget {
   const LandingScreen({super.key});
+
+  @override
+  State<LandingScreen> createState() => _LandingScreenState();
+}
+
+class _LandingScreenState extends State<LandingScreen> {
+  @override
+  void initState() {
+    super.initState();
+    SharedPrefs.setOnboardingStatus();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +52,10 @@ class LandingScreen extends StatelessWidget {
                       backgroundColor: MaterialStatePropertyAll(Colors.white),
                       foregroundColor: MaterialStatePropertyAll(Colors.black)),
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const RoleScreen()));
+                            builder: (context) => const LoginScreen()));
                   },
                   child: const Text("Get Started"),
                 ),
@@ -55,10 +67,3 @@ class LandingScreen extends StatelessWidget {
     );
   }
 }
-/*
-            //  Text("Landing Page",
-            //    style: Theme.of(context)
-            //      .textTheme
-            //    .displayMedium!
-            //  .copyWith(color: Theme.of(context).colorScheme.primary)),
-            */

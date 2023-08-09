@@ -64,7 +64,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Text(
@@ -86,12 +86,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 80,
                         ),
                         Text("Email",
                             style: Theme.of(context).textTheme.titleLarge),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         CustomTextFormField(
@@ -103,7 +103,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const SizedBox(height: 20.0),
                         Text("Password",
                             style: Theme.of(context).textTheme.titleLarge),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         CustomTextFormField(

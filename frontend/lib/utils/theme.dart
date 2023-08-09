@@ -45,14 +45,14 @@ final _theme = ThemeData(
           color: Constants.kBlackColor),
 
       //headline
-      displayLarge: TextStyle(
+      displayLarge: const TextStyle(
         fontWeight: FontWeight.w900,
         height: 1,
         fontSize: 36,
         color: Constants.kBlackColor,
       ),
       // title
-      titleLarge: TextStyle(
+      titleLarge: const TextStyle(
         color: Constants.kBlackColor,
         fontSize: 20,
         fontWeight: FontWeight.w700,

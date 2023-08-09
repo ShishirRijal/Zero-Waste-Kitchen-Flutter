@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:zero_waste_kitchen/screens/main/main_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:zero_waste_kitchen/utils/shared_prefs.dart';
 import 'package:zero_waste_kitchen/widgets/popups.dart';
 
 class AuthController extends ChangeNotifier {
@@ -14,6 +15,9 @@ class AuthController extends ChangeNotifier {
         email: email,
         password: password,
       );
+      // update the shared prefs
+      // ignore: use_build_context_synchronously
+      await context.read<SharedPrefs>().setAuthStatus();
     } on FirebaseAuthException catch (e) //catches errors from firebase authentication
     {
       String error = 'An unknown error occurred';
@@ -42,8 +46,10 @@ class AuthController extends ChangeNotifier {
         email: email,
         password: password,
       );
+      // update the shared prefs
+      // ignore: use_build_context_synchronously
+      await context.read<SharedPrefs>().setAuthStatus();
       // now trigger the  authStateChanges method to update the UI
-      notifyListeners();
       return true;
     } on FirebaseAuthException catch (e) //catches errors from firebase authentication
     {
@@ -96,8 +102,10 @@ class AuthController extends ChangeNotifier {
     }
   }
 
-  Future<void> logout() async {
+  Future<void> logout(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
-    notifyListeners();
+    // update the shared prefs
+    // ignore: use_build_context_synchronously
+    await context.read<SharedPrefs>().clearAuthStatus();
   }
 }
