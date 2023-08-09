@@ -10,7 +10,7 @@ import 'package:zero_waste_kitchen/screens/sucess_donation_request.dart';
 import 'package:zero_waste_kitchen/utils/constants.dart';
 import 'package:zero_waste_kitchen/widgets/widgets.dart';
 
-enum DishCategory { veg, nonveg }
+enum DishCategory { veg, nonVeg }
 
 class CreateDonationPost extends StatefulWidget {
   const CreateDonationPost({super.key});
@@ -112,23 +112,13 @@ class _CreateDonationPostState extends State<CreateDonationPost> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
         centerTitle: false,
-        title: Text(
+        title: const Text(
           "Create Donation Post",
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium!
-              .copyWith(color: Colors.black, fontWeight: FontWeight.bold),
         ),
-        actions: const [
-          IconButton(
-            onPressed: null,
-            icon: Icon(Icons.more_vert, color: Colors.black),
-          ),
-        ],
       ),
       body: SafeArea(
         child: Container(
@@ -182,12 +172,12 @@ class _CreateDonationPostState extends State<CreateDonationPost> {
                       width: 15,
                     ),
                     FoodType(
-                        color: selectedCategory == DishCategory.nonveg
+                        color: selectedCategory == DishCategory.nonVeg
                             ? Constants.kPrimaryColor
                             : Constants.kGrey.shade500,
                         onPressed: () {
-                          if (selectedCategory != DishCategory.nonveg) {
-                            selectedCategory = DishCategory.nonveg;
+                          if (selectedCategory != DishCategory.nonVeg) {
+                            selectedCategory = DishCategory.nonVeg;
                             setState(() {});
                           }
                         },

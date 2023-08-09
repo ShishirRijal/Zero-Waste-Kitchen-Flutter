@@ -19,7 +19,15 @@ final _theme = ThemeData(
       selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
     ),
     fontFamily: GoogleFonts.poppins().fontFamily,
-    appBarTheme: const AppBarTheme(color: Constants.kWhiteColor, elevation: 3),
+    appBarTheme: AppBarTheme(
+      color: Constants.kPrimaryColor,
+      elevation: 3,
+      titleTextStyle: GoogleFonts.lato(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        color: Constants.kWhiteColor,
+      ),
+    ),
     inputDecorationTheme: const InputDecorationTheme(
       filled: true,
       fillColor: Color.fromARGB(255, 247, 247, 251),

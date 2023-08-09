@@ -14,6 +14,7 @@ FoodOrder _$FoodOrderFromJson(Map<String, dynamic> json) => FoodOrder(
       quantity: json['quantity'] as int,
       cookDateTime: DateTime.parse(json['cookDateTime'] as String),
       expireDateTime: DateTime.parse(json['expireDateTime'] as String),
+      type: $enumDecode(_$FoodTypeEnumMap, json['type']),
       isTaken: json['isTaken'] as bool? ?? false,
     );
 
@@ -22,8 +23,14 @@ Map<String, dynamic> _$FoodOrderToJson(FoodOrder instance) => <String, dynamic>{
       'name': instance.name,
       'description': instance.description,
       'imageUrl': instance.imageUrl,
+      'type': _$FoodTypeEnumMap[instance.type]!,
       'quantity': instance.quantity,
       'cookDateTime': instance.cookDateTime.toIso8601String(),
       'expireDateTime': instance.expireDateTime.toIso8601String(),
       'isTaken': instance.isTaken,
     };
+
+const _$FoodTypeEnumMap = {
+  FoodType.veg: 'veg',
+  FoodType.nonVeg: 'nonVeg',
+};

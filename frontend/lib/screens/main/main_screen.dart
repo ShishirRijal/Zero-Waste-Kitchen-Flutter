@@ -4,6 +4,7 @@ import 'package:zero_waste_kitchen/screens/main/donation_screen.dart';
 import 'package:zero_waste_kitchen/screens/main/history_screen.dart';
 import 'package:zero_waste_kitchen/screens/main/home_screen.dart';
 import 'package:zero_waste_kitchen/screens/main/profile_screen.dart';
+import 'package:zero_waste_kitchen/screens/screens.dart';
 import 'package:zero_waste_kitchen/utils/utils.dart';
 
 class MainScreen extends StatefulWidget {
@@ -19,7 +20,7 @@ class _MainScreenState extends State<MainScreen> {
   // list of screens in bottom nav bar
   final List<Widget> _screens = const [
     HomeScreen(),
-    DonationScreen(),
+    CreateDonationPost(),
     HistoryScreen(),
     ProfileScreen(),
   ];
