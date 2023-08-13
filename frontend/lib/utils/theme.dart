@@ -7,6 +7,7 @@ ThemeData get theme => _theme;
 
 final _theme = ThemeData(
     primaryColor: const Color(0XFF5A59D6),
+    primarySwatch: Colors.blue,
     visualDensity: VisualDensity.adaptivePlatformDensity,
     scaffoldBackgroundColor: Constants.kWhiteColor,
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(

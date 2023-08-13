@@ -45,7 +45,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // context.read<AuthController>().logout();
+    // context.read<AuthController>().logout(context);
     return Scaffold(
       body: FutureBuilder(
           future: InternetConnectionChecker().hasConnection,
@@ -65,13 +65,16 @@ class _MainScreenState extends State<MainScreen> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
-                  } else {
+                  } else
+                  // if (currentUser != null)
+                  {
                     return _screens[_currentIndex];
                   }
-                  //  else {
-                  //   return const Padding(
-                  //     padding: EdgeInsets.all(10.0),
-                  //     child: Center(child: Text("An unknown error occured!")),
+                  // else {
+                  //   return Padding(
+                  //     padding: const EdgeInsets.all(10.0),
+                  //     child: Center(
+                  //         child: LottieBuilder.asset('assets/json/error.json')),
                   //   );
                   // }
                 });

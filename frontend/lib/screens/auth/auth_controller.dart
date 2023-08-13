@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -18,7 +17,6 @@ class AuthController extends ChangeNotifier {
 
   Future<userModel.User?> getCurrentUser() async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
-    print('firebase user : ${firebaseUser?.uid.toString() ?? 'null'}');
     if (firebaseUser == null) {
       return null;
     }
@@ -35,6 +33,7 @@ class AuthController extends ChangeNotifier {
       // update the shared prefs
       // ignore: use_build_context_synchronously
       await context.read<SharedPrefs>().setAuthStatus();
+      notifyListeners();
     } on FirebaseAuthException catch (e) //catches errors from firebase authentication
     {
       String error = 'An unknown error occurred';
@@ -146,5 +145,7 @@ class AuthController extends ChangeNotifier {
     // update the shared prefs
     // ignore: use_build_context_synchronously
     await context.read<SharedPrefs>().clearAuthStatus();
+    // clear user
+    notifyListeners();
   }
 }
