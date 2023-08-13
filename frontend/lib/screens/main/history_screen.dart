@@ -15,7 +15,7 @@ class HistoryScreen extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .headlineSmall!
-              .copyWith(color: Colors.black, fontWeight: FontWeight.bold),
+              .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
       body: Container(
@@ -23,6 +23,16 @@ class HistoryScreen extends StatelessWidget {
             horizontal: Constants.kHorizontalPadding),
         child: const Column(
           children: [
+            SizedBox(
+              height: 20,
+            ),
+            HistoryBox(
+                image: 'assets/images/beneficiary.png',
+                name: "Khaja Ghar",
+                address: "Nadipur-2",
+                foodItems: "Chicken ,Naan",
+                date: "2080-02-15",
+                time: "9:40 PM"),
             SizedBox(
               height: 20,
             ),

@@ -39,7 +39,7 @@ class _CreateDonationPostState extends State<CreateDonationPost> {
   orderModel.FoodType selectedCategory = orderModel.FoodType.veg;
 
   bool _isAccepted = false;
-
+  final TextEditingController _addressController = TextEditingController();
   final TextEditingController _foodNameController = TextEditingController();
   final TextEditingController _foodDescriptionController =
       TextEditingController();
@@ -88,6 +88,8 @@ class _CreateDonationPostState extends State<CreateDonationPost> {
       return showSnackBar("Please enter the food name", context);
     } else if (_foodQuantity.text.isEmpty) {
       return showSnackBar("Food quantity can't be empty", context);
+    } else if (_addressController.text.isEmpty) {
+      return showSnackBar("Address can't be empty", context);
     } else if (_image == null) {
       return showSnackBar("Please select an image", context);
     } else if (_isAccepted == false) {
@@ -127,6 +129,7 @@ class _CreateDonationPostState extends State<CreateDonationPost> {
     cookingTime.dispose();
     expirationDate.dispose();
     expirationTime.dispose();
+    _addressController.dispose();
   }
 
   dateSelect(BuildContext context, TextEditingController controller) async {
@@ -316,6 +319,30 @@ class _CreateDonationPostState extends State<CreateDonationPost> {
                 const SizedBox(
                   height: 20,
                 ),
+                Text(
+                  "Address",
+                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      color: Constants.kGrey, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextField(
+                  keyboardType: TextInputType.number,
+                  controller: _addressController,
+                  // only accept the numbers input
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  decoration: InputDecoration(
+                    hintText: "Enter the address",
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .labelMedium!
+                        .copyWith(color: Constants.kGrey),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
                 Row(
                   children: [
                     DateTimeBox(
@@ -390,8 +417,8 @@ class _CreateDonationPostState extends State<CreateDonationPost> {
                 ),
                 DottedBorder(
                   child: SizedBox(
-                    height: 40,
-                    width: 40,
+                    height: 60,
+                    width: 60,
                     child: _image == null
                         ? IconButton(
                             onPressed: selectImage,
