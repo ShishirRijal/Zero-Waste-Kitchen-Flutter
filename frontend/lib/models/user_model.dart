@@ -7,6 +7,7 @@ class User {
     required this.id,
     this.email,
     this.name,
+    this.imgUrl,
     this.isDonor,
   });
 
@@ -14,6 +15,7 @@ class User {
   final String id;
   final String? name;
   final bool? isDonor;
+  final String? imgUrl;
 
   /// Empty user which represents an unauthenticated user.
   static const empty = User(id: '');
