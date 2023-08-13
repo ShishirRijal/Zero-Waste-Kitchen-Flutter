@@ -24,14 +24,15 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Donations'),
+          title: Text(currentUser!.isDonor ? 'Donation Requests' : 'Donations'),
           backgroundColor: Constants.kPrimaryColor,
           centerTitle: true,
+          automaticallyImplyLeading: false,
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
           child: FutureBuilder(
-            future: FoodServices.getFoods(getDonations: currentUser!.isDonor),
+            future: FoodServices.getFoods(getDonations: !currentUser!.isDonor),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());

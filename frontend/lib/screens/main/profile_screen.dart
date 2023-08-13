@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zero_waste_kitchen/screens/main/main_screen.dart';
 import 'package:zero_waste_kitchen/utils/constants.dart';
 
 import '../auth/auth_controller.dart';
@@ -74,7 +73,9 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   ProfileDataBox(
-                    title: user.isDonor ? "No of Donations" : "No of Services",
+                    title: user.isDonor
+                        ? "No. of Donations"
+                        : "No. of Beneficiaries",
                     number: (user.noOfServices ?? 0).toString(),
                     icon: Icons.favorite,
                     color: Colors.red,

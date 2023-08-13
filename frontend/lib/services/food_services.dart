@@ -4,11 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:zero_waste_kitchen/models/models.dart';
-import 'package:zero_waste_kitchen/widgets/popups.dart';
+import 'package:zero_waste_kitchen/screens/main/main_screen.dart';
 
 class FoodServices {
 //* Fetch all food orders
-
   static Future<List<FoodOrder>> getFoods({required getDonations}) async {
     String path = getDonations ? 'food_donations' : 'food_requests';
     // Access the Firestore instance
@@ -49,11 +48,7 @@ class FoodServices {
       await firestore.collection(path).add(foodOrder.toJson());
       return true;
     } catch (e) {
-      showDialog(
-          context: context,
-          builder: (context) => const ErrorPopup(
-              errorText: 'Something went wrong!\nPlease try again later...'));
-      return false;
+      rethrow;
     }
   }
 
@@ -68,5 +63,21 @@ class FoodServices {
         .collection(path)
         .doc(foodOrder.id)
         .update({'isTaken': true});
+  }
+
+  //* Update user service count
+  static Future<void> updateServiceCount(BuildContext context) async {
+    // Access the Firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    // Update the service count
+    try {
+      await firestore
+          .collection('users')
+          .doc(currentUser!.id)
+          .update({'noOfServices': FieldValue.increment(1)});
+    } catch (e) {
+      rethrow;
+    }
   }
 }

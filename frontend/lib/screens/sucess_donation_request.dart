@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:zero_waste_kitchen/screens/main/main_screen.dart';
 import 'package:zero_waste_kitchen/utils/constants.dart';
-
-import 'screens.dart';
 
 class SucessDonationRequest extends StatelessWidget {
   const SucessDonationRequest({super.key});
@@ -31,7 +30,7 @@ class SucessDonationRequest extends StatelessWidget {
               height: 20,
             ),
             Text(
-              "Thank You",
+              currentUser!.isDonor ? "Thank You!" : "You're all set!",
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                   color: Constants.kWhiteColor, fontWeight: FontWeight.bold),
             ),
@@ -39,7 +38,9 @@ class SucessDonationRequest extends StatelessWidget {
               height: 40,
             ),
             Text(
-              "Your donation request has been sucessfully submitted to the The Food Centre.",
+              currentUser!.isDonor
+                  ? "Your donation has been sucessfully shared among all the beneficiaries.\nWe appreciate your contribution."
+                  : "Your request has been sucessfully shared among all the donors.\nKeep patience, we will notify you soon.",
               style: Theme.of(context).textTheme.labelLarge!.copyWith(
                   color: Constants.kWhiteColor, fontWeight: FontWeight.w100),
               textAlign: TextAlign.center,
@@ -48,7 +49,10 @@ class SucessDonationRequest extends StatelessWidget {
               height: 40,
             ),
             Text(
-              "\"Be ready with your food\"",
+              currentUser!.isDonor
+                  ? "\"Be ready with your food!\""
+                  : "\"Be ready to receive your food!\"",
+              textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     color: Constants.kWhiteColor,
                     fontWeight: FontWeight.bold,
@@ -71,7 +75,7 @@ class SucessDonationRequest extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const RoleScreen()));
+                          builder: (context) => const MainScreen()));
                 },
                 child: Text(
                   "Back to homescreen",

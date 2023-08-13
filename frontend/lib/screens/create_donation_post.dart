@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ import 'package:zero_waste_kitchen/utils/constants.dart';
 import 'package:zero_waste_kitchen/widgets/widgets.dart';
 
 import '../services/food_services.dart';
+import '../widgets/popups.dart';
 
 enum DishCategory { veg, nonVeg }
 
@@ -25,6 +27,8 @@ class CreateDonationPost extends StatefulWidget {
 }
 
 class _CreateDonationPostState extends State<CreateDonationPost> {
+  bool isLoading = false;
+
   File? _image;
   final _imagePicker = ImagePicker();
   selectImage() async {
@@ -96,6 +100,9 @@ class _CreateDonationPostState extends State<CreateDonationPost> {
     } else if (_isAccepted == false) {
       return showSnackBar("Please accept the terms and conditions", context);
     }
+    setState(() {
+      isLoading = true;
+    });
     String id = const Uuid().v4();
     id = id.replaceAll('-', '').substring(0, 8);
 
@@ -106,20 +113,44 @@ class _CreateDonationPostState extends State<CreateDonationPost> {
       description: _foodDescriptionController.text.trim(),
       quantity: int.parse(_foodQuantity.text.trim()),
       type: selectedCategory,
+      location: _addressController.text.trim(),
       cookDateTime:
           convertDateTime(cookingDate.text.trim(), cookingTime.text.trim()),
       expireDateTime: convertDateTime(
           expirationDate.text.trim(), expirationTime.text.trim()),
       imageUrl: 'url to be uploaded first and then do this',
     );
+    try {
+      if (!(await InternetConnectionChecker().hasConnection)) {
+        throw 'No internet';
+      }
 
-    await FoodServices.addFood(context, _image!, newOrder, currentUser!.isDonor)
-        .then((value) => value == true
-            ? Navigator.push(
+      FoodServices.addFood(context, _image!, newOrder, currentUser!.isDonor)
+          .then((value) {
+        if (value) {
+          FoodServices.updateServiceCount(context).then((value) {
+            setState(() {
+              isLoading = false;
+            });
+            Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const SucessDonationRequest()))
-            : null);
+                    builder: (context) => const SucessDonationRequest()));
+          });
+        }
+      });
+    } catch (e) {
+      if (mounted) {
+        showDialog(
+                context: context,
+                builder: (context) => const ErrorPopup(
+                    errorText:
+                        'Something went wrong!\nPlease try again later...'))
+            .then((value) => setState(() {
+                  isLoading = false;
+                }));
+      }
+    }
   }
 
   @override
@@ -330,10 +361,9 @@ class _CreateDonationPostState extends State<CreateDonationPost> {
                   height: 10,
                 ),
                 TextField(
-                  keyboardType: TextInputType.number,
                   controller: _addressController,
                   // only accept the numbers input
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+
                   decoration: InputDecoration(
                     hintText: "Enter the address",
                     hintStyle: Theme.of(context)
@@ -469,9 +499,11 @@ class _CreateDonationPostState extends State<CreateDonationPost> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: createOrder,
-                    child: const Text(
-                      "Save",
-                    ),
+                    child: isLoading
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text(
+                            "Save",
+                          ),
                   ),
                 ),
                 const SizedBox(height: 20),
