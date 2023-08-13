@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
 import 'package:zero_waste_kitchen/models/models.dart';
 import 'package:zero_waste_kitchen/screens/main/main_screen.dart';
 import 'package:zero_waste_kitchen/services/food_services.dart';
 import 'package:zero_waste_kitchen/utils/constants.dart';
 
 import '../../widgets/custom_order_card.dart';
-import '../auth/auth_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

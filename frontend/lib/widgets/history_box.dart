@@ -1,21 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:zero_waste_kitchen/models/food_order.dart';
 
 class HistoryBox extends StatelessWidget {
-  final String name;
-  final String address;
-  final String foodItems;
-  final String date;
-  final String time;
-  final String image;
+  final FoodOrder foodOrder;
 
-  const HistoryBox(
-      {super.key,
-      required this.image,
-      required this.name,
-      required this.address,
-      required this.foodItems,
-      required this.date,
-      required this.time});
+  const HistoryBox({
+    super.key,
+    required this.foodOrder,
+  });
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -35,7 +28,8 @@ class HistoryBox extends StatelessWidget {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: Image.asset(image, height: 45),
+                      child: Image.network(foodOrder.imageUrl,
+                          height: 60, width: 100, fit: BoxFit.cover),
                     ),
                     const SizedBox(
                       width: 15,
@@ -44,30 +38,33 @@ class HistoryBox extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          name,
+                          foodOrder.name,
                           style: Theme.of(context)
                               .textTheme
                               .labelLarge!
                               .copyWith(
                                   color: Colors.black,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.bold),
                         ),
+                        const SizedBox(height: 5),
                         RichText(
                           text: TextSpan(
                             children: [
                               const WidgetSpan(
                                 child: Icon(
                                   Icons.place,
-                                  size: 18,
-                                  color: Color.fromARGB(255, 175, 95, 89),
+                                  size: 24,
+                                  color: Colors.red,
                                 ),
                               ),
                               TextSpan(
-                                text: address,
+                                text: foodOrder.location,
                                 style: Theme.of(context)
                                     .textTheme
                                     .labelMedium!
                                     .copyWith(
+                                      fontSize: 15,
                                       color: Colors.black,
                                     ),
                               ),
@@ -79,26 +76,28 @@ class HistoryBox extends StatelessWidget {
                   ],
                 ),
               ),
+              const SizedBox(height: 10),
               const Divider(
                 color: Colors.black,
               ),
-              Expanded(
-                  child: Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    foodItems,
+                    foodOrder.name,
                     style: Theme.of(context).textTheme.labelLarge!.copyWith(
                         color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "$date | $time",
+                    foodOrder.acceptedDateTime == null
+                        ? "Scheduled for pickup"
+                        : "${DateFormat('yyyy-MM-dd').format(foodOrder.cookDateTime)} | ${DateFormat('HH:mm:a').format(foodOrder.cookDateTime)}",
                     style: Theme.of(context).textTheme.labelMedium!.copyWith(
                           color: Colors.black,
                         ),
                   ),
                 ],
-              ))
+              )
             ],
           ),
         ),
@@ -108,14 +107,14 @@ class HistoryBox extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(5),
             height: 28,
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
+            decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(12),
                   bottomLeft: Radius.circular(12),
                 ),
-                color: Colors.green),
+                color: foodOrder.isTaken ? Colors.green : Colors.red),
             child: Text(
-              "Donated",
+              foodOrder.isTaken ? "Donated" : "Pending",
               style: Theme.of(context)
                   .textTheme
                   .labelSmall!

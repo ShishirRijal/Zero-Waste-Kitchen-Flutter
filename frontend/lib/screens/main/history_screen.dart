@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:zero_waste_kitchen/screens/main/main_screen.dart';
+import 'package:zero_waste_kitchen/services/food_services.dart';
 import 'package:zero_waste_kitchen/utils/constants.dart';
 import 'package:zero_waste_kitchen/widgets/history_box.dart';
 
@@ -11,7 +14,7 @@ class HistoryScreen extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Donation History",
+          "History",
           style: Theme.of(context)
               .textTheme
               .headlineSmall!
@@ -19,33 +22,36 @@ class HistoryScreen extends StatelessWidget {
         ),
       ),
       body: Container(
-        padding: const EdgeInsets.symmetric(
-            horizontal: Constants.kHorizontalPadding),
-        child: const Column(
-          children: [
-            SizedBox(
-              height: 20,
-            ),
-            HistoryBox(
-                image: 'assets/images/beneficiary.png',
-                name: "Khaja Ghar",
-                address: "Nadipur-2",
-                foodItems: "Chicken ,Naan",
-                date: "2080-02-15",
-                time: "9:40 PM"),
-            SizedBox(
-              height: 20,
-            ),
-            HistoryBox(
-                image: 'assets/images/beneficiary.png',
-                name: "Khaja Ghar",
-                address: "Nadipur-2",
-                foodItems: "Chicken ,Naan",
-                date: "2080-02-15",
-                time: "9:40 PM"),
-          ],
-        ),
-      ),
+          padding: const EdgeInsets.symmetric(
+              horizontal: Constants.kHorizontalPadding, vertical: 20),
+          child: FutureBuilder(
+              future: FoodServices.getFoods(getDonations: currentUser!.isDonor),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError || snapshot.data == null) {
+                  return const Center(child: Text("Error"));
+                } else {
+                  var orders = snapshot.data!;
+                  //now filter
+                  orders = orders
+                      .where((element) => element.userId == currentUser!.id)
+                      .toList();
+                  return orders.isEmpty
+                      ? Center(
+                          child: LottieBuilder.asset('assets/json/empty.json'))
+                      : ListView.separated(
+                          itemCount: orders.length,
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(height: 20),
+                          itemBuilder: (context, index) {
+                            return HistoryBox(
+                              foodOrder: orders[index],
+                            );
+                          },
+                        );
+                }
+              })),
     );
   }
 }

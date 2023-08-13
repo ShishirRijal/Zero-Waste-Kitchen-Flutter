@@ -8,6 +8,7 @@ part of 'food_order.dart';
 
 FoodOrder _$FoodOrderFromJson(Map<String, dynamic> json) => FoodOrder(
       id: json['id'] as String,
+      userId: json['userId'] as String,
       name: json['name'] as String,
       description: json['description'] as String,
       imageUrl: json['imageUrl'] as String,
@@ -19,10 +20,12 @@ FoodOrder _$FoodOrderFromJson(Map<String, dynamic> json) => FoodOrder(
       acceptedDateTime: json['acceptedDateTime'] == null
           ? null
           : DateTime.parse(json['acceptedDateTime'] as String),
+      location: json['location'] as String? ?? 'unknown',
     );
 
 Map<String, dynamic> _$FoodOrderToJson(FoodOrder instance) => <String, dynamic>{
       'id': instance.id,
+      'userId': instance.userId,
       'name': instance.name,
       'description': instance.description,
       'imageUrl': instance.imageUrl,
@@ -32,6 +35,7 @@ Map<String, dynamic> _$FoodOrderToJson(FoodOrder instance) => <String, dynamic>{
       'expireDateTime': instance.expireDateTime.toIso8601String(),
       'isTaken': instance.isTaken,
       'acceptedDateTime': instance.acceptedDateTime?.toIso8601String(),
+      'location': instance.location,
     };
 
 const _$FoodTypeEnumMap = {

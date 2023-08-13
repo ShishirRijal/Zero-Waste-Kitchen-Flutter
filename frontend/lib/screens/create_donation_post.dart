@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:zero_waste_kitchen/models/food_order.dart' as orderModel;
+import 'package:zero_waste_kitchen/models/food_order.dart' as order;
 import 'package:zero_waste_kitchen/screens/main/main_screen.dart';
 import 'package:zero_waste_kitchen/screens/sucess_donation_request.dart';
 import 'package:zero_waste_kitchen/utils/constants.dart';
@@ -37,7 +37,7 @@ class _CreateDonationPostState extends State<CreateDonationPost> {
     }
   }
 
-  orderModel.FoodType selectedCategory = orderModel.FoodType.veg;
+  order.FoodType selectedCategory = order.FoodType.veg;
 
   bool _isAccepted = false;
   final TextEditingController _addressController = TextEditingController();
@@ -99,8 +99,9 @@ class _CreateDonationPostState extends State<CreateDonationPost> {
     String id = const Uuid().v4();
     id = id.replaceAll('-', '').substring(0, 8);
 
-    orderModel.FoodOrder newOrder = orderModel.FoodOrder(
+    order.FoodOrder newOrder = order.FoodOrder(
       id: id,
+      userId: currentUser!.id,
       name: _foodNameController.text.trim(),
       description: _foodDescriptionController.text.trim(),
       quantity: int.parse(_foodQuantity.text.trim()),
@@ -221,12 +222,12 @@ class _CreateDonationPostState extends State<CreateDonationPost> {
                 Row(
                   children: [
                     FoodType(
-                        color: selectedCategory == orderModel.FoodType.veg
+                        color: selectedCategory == order.FoodType.veg
                             ? Constants.kPrimaryColor
                             : Constants.kGrey,
                         onPressed: () {
-                          if (selectedCategory != orderModel.FoodType.veg) {
-                            selectedCategory = orderModel.FoodType.veg;
+                          if (selectedCategory != order.FoodType.veg) {
+                            selectedCategory = order.FoodType.veg;
                             setState(() {});
                           }
                         },
@@ -235,12 +236,12 @@ class _CreateDonationPostState extends State<CreateDonationPost> {
                       width: 15,
                     ),
                     FoodType(
-                        color: selectedCategory == orderModel.FoodType.nonVeg
+                        color: selectedCategory == order.FoodType.nonVeg
                             ? Constants.kPrimaryColor
                             : Constants.kGrey.shade500,
                         onPressed: () {
-                          if (selectedCategory != orderModel.FoodType.nonVeg) {
-                            selectedCategory = orderModel.FoodType.nonVeg;
+                          if (selectedCategory != order.FoodType.nonVeg) {
+                            selectedCategory = order.FoodType.nonVeg;
                             setState(() {});
                           }
                         },
