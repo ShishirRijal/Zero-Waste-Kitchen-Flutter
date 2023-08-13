@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
+import 'package:zero_waste_kitchen/models/user_model.dart';
 import 'package:zero_waste_kitchen/screens/main/history_screen.dart';
 import 'package:zero_waste_kitchen/screens/main/home_screen.dart';
 import 'package:zero_waste_kitchen/screens/main/profile_screen.dart';
 import 'package:zero_waste_kitchen/screens/screens.dart';
 import 'package:zero_waste_kitchen/utils/utils.dart';
+
+import '../auth/auth_controller.dart';
+
+User? currentUser;
 
 class MainScreen extends StatefulWidget {
   const MainScreen({this.currentIndex = 0, super.key});
@@ -24,9 +32,14 @@ class _MainScreenState extends State<MainScreen> {
     ProfileScreen(),
   ];
 
+  Future<void> getCurrentUser() async {
+    currentUser = await context.read<AuthController>().getCurrentUser();
+  }
+
   @override
   void initState() {
     super.initState();
+    // getCurrentUser(); // get current user
     _currentIndex = widget.currentIndex;
   }
 
@@ -34,7 +47,35 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     // context.read<AuthController>().logout();
     return Scaffold(
-      body: _screens[_currentIndex],
+      body: FutureBuilder(
+          future: InternetConnectionChecker().hasConnection,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError ||
+                snapshot.data == null ||
+                snapshot.data == false) {
+              return Center(
+                  child: LottieBuilder.asset('assets/json/no-internet.json'));
+            }
+
+            // in case there's internet connection
+            return FutureBuilder(
+                future: getCurrentUser(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else {
+                    return _screens[_currentIndex];
+                  }
+                  //  else {
+                  //   return const Padding(
+                  //     padding: EdgeInsets.all(10.0),
+                  //     child: Center(child: Text("An unknown error occured!")),
+                  //   );
+                  // }
+                });
+          }),
 
       //bottom navbar
       bottomNavigationBar: BottomNavigationBar(

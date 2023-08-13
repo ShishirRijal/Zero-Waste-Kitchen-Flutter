@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:zero_waste_kitchen/screens/auth/auth_controller.dart';
 import 'package:zero_waste_kitchen/screens/main/main_screen.dart';
 import 'package:zero_waste_kitchen/screens/screens.dart';
-import 'package:zero_waste_kitchen/utils/shared_prefs.dart';
 
 class AuthWrapper extends StatelessWidget {
   const AuthWrapper({super.key});

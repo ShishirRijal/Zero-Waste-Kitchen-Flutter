@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:zero_waste_kitchen/screens/auth/signup_screen.dart';
-import 'package:zero_waste_kitchen/screens/screens.dart';
 import 'package:zero_waste_kitchen/utils/constants.dart';
 import 'package:zero_waste_kitchen/widgets/role_choose.dart';
 

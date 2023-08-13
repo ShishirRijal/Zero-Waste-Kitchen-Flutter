@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:zero_waste_kitchen/models/food_order.dart' as orderModel;
+import 'package:zero_waste_kitchen/screens/main/main_screen.dart';
 import 'package:zero_waste_kitchen/screens/sucess_donation_request.dart';
 import 'package:zero_waste_kitchen/utils/constants.dart';
 import 'package:zero_waste_kitchen/widgets/widgets.dart';
@@ -111,8 +112,8 @@ class _CreateDonationPostState extends State<CreateDonationPost> {
       imageUrl: 'url to be uploaded first and then do this',
     );
 
-    await FoodServices.addFood(context, _image!, newOrder, true).then((value) =>
-        value == true
+    await FoodServices.addFood(context, _image!, newOrder, currentUser!.isDonor)
+        .then((value) => value == true
             ? Navigator.push(
                 context,
                 MaterialPageRoute(

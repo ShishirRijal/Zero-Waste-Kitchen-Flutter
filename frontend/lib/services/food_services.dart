@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:zero_waste_kitchen/models/models.dart';
@@ -10,7 +9,7 @@ import 'package:zero_waste_kitchen/widgets/popups.dart';
 class FoodServices {
 //* Fetch all food orders
 
-  static Future<List<FoodOrder>> getFoods(bool getDonations) async {
+  static Future<List<FoodOrder>> getFoods({required getDonations}) async {
     String path = getDonations ? 'food_donations' : 'food_requests';
     // Access the Firestore instance
     FirebaseFirestore firestore = FirebaseFirestore.instance;

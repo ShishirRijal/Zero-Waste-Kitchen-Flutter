@@ -19,7 +19,7 @@ class UserServices {
       final imageUrl = await storageReference.getDownloadURL();
       return imageUrl;
     } catch (e) {
-      print(e);
+      // print(e);
       return null;
     }
   }
@@ -41,7 +41,7 @@ class UserServices {
         'isDonor': isDonor,
       });
     } catch (e) {
-      print(e);
+      // print(e);
     }
   }
 
@@ -60,7 +60,7 @@ class UserServices {
         'isDonor': isDonor,
       });
     } catch (e) {
-      print(e);
+      // print(e);
     }
   }
 
@@ -68,13 +68,14 @@ class UserServices {
   static Future<User?> getUser(String id) async {
     try {
       final data = await _firebaseFirestore.collection('users').doc(id).get();
-      print('data => ${data.data()}');
+      // print('data => ${data.data()}');
       final user = User.fromJson(data.data() as Map<String, dynamic>);
-      print("user: ${user.email}");
+      // print("user: ${user.email}");
       return user;
     } catch (e) {
-      print(e);
+      // print(e);
       // rethrow;
+      return null;
     }
   }
 }
