@@ -9,7 +9,7 @@ class UserServices {
   static final _firebaseFirestore = FirebaseFirestore.instance;
   static FirebaseStorage storage = FirebaseStorage.instance;
 
-  Future<String?> uploadImage(XFile image) async {
+  static Future<String?> uploadImage(XFile image) async {
     try {
       // Upload the image to Firebase Storage
       Reference storageReference =
@@ -24,16 +24,17 @@ class UserServices {
     }
   }
 
-  Future<void> createUser({
+  static Future<void> createUser({
+    required String id,
     required String email,
     required String name,
     required String imgUrl,
     required bool isDonor,
   }) async {
     try {
-      await _firebaseFirestore.collection('users').doc().set({
+      await _firebaseFirestore.collection('users').doc(id).set({
         // assign id to current user uid
-        'id': _firebaseFirestore.collection('users').doc().id,
+        'id': id,
         'email': email,
         'name': name,
         'imgUrl': imgUrl,
@@ -44,7 +45,7 @@ class UserServices {
     }
   }
 
-  Future<void> updateUser({
+  static Future<void> updateUser({
     required String id,
     required String email,
     required String name,
@@ -64,16 +65,16 @@ class UserServices {
   }
 
   // get user
-  Stream<User> getUser(String id) {
+  static Future<User?> getUser(String id) async {
     try {
-      return _firebaseFirestore
-          .collection('users')
-          .doc(id)
-          .snapshots()
-          .map((snap) => User.fromJson(snap as Map<String, dynamic>));
+      final data = await _firebaseFirestore.collection('users').doc(id).get();
+      print('data => ${data.data()}');
+      final user = User.fromJson(data.data() as Map<String, dynamic>);
+      print("user: ${user.email}");
+      return user;
     } catch (e) {
       print(e);
-      rethrow;
+      // rethrow;
     }
   }
 }

@@ -20,90 +20,82 @@ class ProfileScreen extends StatelessWidget {
               .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
-      body: Container(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                SizedBox(
-                  width: 150,
-                  height: 150,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(130),
-                    child: const Image(
-                      image: NetworkImage(
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQj4tzGpTQ7UXcB_7gk75AyF_TJElz8gjU1VQ&usqp=CAU"),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: Container(
-                    width: 35,
-                    height: 35,
+      body: FutureBuilder(
+        future: context.read<AuthController>().getCurrentUser(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+                child: CircularProgressIndicator(
+              color: Constants.kPrimaryColor,
+              strokeWidth: 3,
+            ));
+          }
+          if (snapshot.hasError) {
+            return const Center(child: Text("Something went wrong"));
+          }
+          if (snapshot.data != null) {
+            final user = snapshot.data!;
+
+            return Container(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  Container(
+                    width: 150,
+                    height: 150,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    child: const Icon(
-                      Icons.verified,
-                      color: Constants.kPrimaryColor,
-                      size: 20,
-                    ),
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(user.imgUrl))),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Text("Roshan", style: Theme.of(context).textTheme.headlineMedium),
-            Text("Tiwari",
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineMedium!
-                    .copyWith(color: Colors.black)),
-            const SizedBox(height: 10),
-            const Divider(),
-            const SizedBox(height: 10),
-            const Row(
-              children: [
-                Expanded(
-                  child: ProfileDataBox(
-                      title: "No of Donors",
-                      number: '250',
-                      icon: Icons.fastfood),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                    child: ProfileDataBox(
-                  title: "No of NGOs",
-                  icon: Icons.domain,
-                  number: "150",
-                ))
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Row(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: ProfileDataBox(
-                    title: "No of Donations",
+                  const SizedBox(height: 10),
+                  Text(user.name,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          )),
+                  const SizedBox(height: 10),
+                  Text(user.email,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontSize: 20,
+                          )),
+                  const SizedBox(height: 10),
+                  const Divider(color: Colors.grey),
+                  const SizedBox(height: 10),
+                  ProfileDataBox(
+                    title: user.isDonor
+                        ? "Certified Donor "
+                        : "Certified Beneficiary",
+                    number: null,
+                    icon: Icons.check_circle,
+                    color: Colors.green,
+                  ),
+                  const SizedBox(height: 10),
+                  ProfileDataBox(
+                    title: user.isDonor ? "No of Donations" : "No of Services",
                     number: '350',
                     icon: Icons.favorite,
+                    color: Colors.red,
                   ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-              ],
-            )
-          ],
-        ),
+                  const SizedBox(height: 20),
+                  //logout button
+                  SizedBox(
+                    width: double.infinity,
+                    height: 60,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        await context.read<AuthController>().logout(context);
+                      },
+                      child: const Text("Logout"),
+                    ),
+                  )
+                ],
+              ),
+            );
+          }
+          return const Center(child: Text("Something went wrong"));
+        },
       ),
     );
   }
@@ -111,13 +103,15 @@ class ProfileScreen extends StatelessWidget {
 
 class ProfileDataBox extends StatelessWidget {
   final String title;
-  final String number;
+  final String? number;
   final IconData icon;
+  final Color color;
 
   const ProfileDataBox(
       {super.key,
       required this.title,
       required this.number,
+      required this.color,
       required this.icon});
   @override
   Widget build(BuildContext context) {
@@ -132,28 +126,37 @@ class ProfileDataBox extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Text(
-            title,
-            style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                  color: Colors.black,
-                ),
-          ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                number,
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: Colors.black,
+              Column(
+                children: [
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Colors.black,
+                          fontSize: number == null ? 24 : 18,
+                          // fontWeight: number == null ? FontWeight.bold : null,
+                        ),
+                  ),
+                  if (number != null) ...[
+                    const SizedBox(height: 5),
+                    Text(
+                      number!,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: Colors.black,
+                          ),
                     ),
+                  ]
+                ],
               ),
+              const Spacer(),
               Icon(
                 icon,
-                color: Colors.grey,
+                color: color,
                 size: 45,
               )
             ],
-          )
+          ),
         ],
       ),
     );

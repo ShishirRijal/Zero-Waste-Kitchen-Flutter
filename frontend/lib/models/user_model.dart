@@ -5,26 +5,19 @@ part 'user_model.g.dart';
 class User {
   const User({
     required this.id,
-    this.email,
-    this.name,
-    this.imgUrl,
-    this.isDonor,
+    required this.email,
+    required this.name,
+    required this.imgUrl,
+    required this.isDonor,
+    this.noOfServices = 0,
   });
 
-  final String? email;
+  final String email;
   final String id;
-  final String? name;
-  final bool? isDonor;
-  final String? imgUrl;
-
-  /// Empty user which represents an unauthenticated user.
-  static const empty = User(id: '');
-
-  /// Convenience getter to determine whether the current user is empty.
-  bool get isEmpty => this == User.empty;
-
-  /// Convenience getter to determine whether the current user is not empty.
-  bool get isNotEmpty => this != User.empty;
+  final String name;
+  final bool isDonor;
+  final String imgUrl;
+  final int? noOfServices;
 
   // to json
   Map<String, dynamic> toJson() => _$UserToJson(this);

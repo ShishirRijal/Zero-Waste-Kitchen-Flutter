@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:zero_waste_kitchen/screens/auth/login_screen.dart';
 import 'package:zero_waste_kitchen/screens/main/main_screen.dart';
@@ -9,8 +12,8 @@ import 'auth_controller.dart';
 import 'custom_text_form_field.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
-
+  const SignUpScreen({required this.isDonor, super.key});
+  final bool isDonor;
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
@@ -19,9 +22,75 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final nameController = TextEditingController();
   bool isLoading = false;
   String? emailErrorText;
+  String? nameErrorText;
   String? passwordErrorText;
+  XFile? _image;
+
+  void signup() async {
+    //* check validation
+    // check image and show snackbar error if null
+    if (_image == null) {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.red,
+          content: Text('Please upload a profile picture'),
+        ),
+      );
+      return;
+    }
+    // check name
+    if (nameController.text.trim().length < 3) {
+      nameErrorText = 'Please enter a valid name';
+    } else {
+      nameErrorText = null;
+      setState(() {});
+    }
+    // check email
+    if (!isEmailValid(emailController.text.trim())) {
+      emailErrorText = 'Please enter a valid email';
+    } else {
+      emailErrorText = null;
+      setState(() {});
+    }
+    // check password
+    if (passwordController.text.trim().length < 6) {
+      passwordErrorText = 'Password must have 6 characters or more';
+      setState(() {});
+      return;
+    } else {
+      passwordErrorText = null;
+      setState(() {});
+    }
+
+    // here all fields are validated
+    setState(() {
+      emailErrorText = null;
+      passwordErrorText = null;
+      isLoading = true;
+    });
+    // login user
+    final bool? isRegistered = await context.read<AuthController>().signUp(
+          context,
+          emailController.text.trim(),
+          passwordController.text.trim(),
+          _image!,
+          nameController.text.trim(),
+          widget.isDonor,
+        );
+
+    setState(() {
+      isLoading = false;
+    });
+    if (isRegistered == true) {
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const MainScreen()));
+    }
+  }
 
   @override
   void dispose() {
@@ -33,6 +102,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("is donor => ${widget.isDonor}");
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -45,16 +115,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(width: double.infinity, height: 70),
+                  const SizedBox(width: double.infinity, height: 20),
                   RichText(
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: "Welcome To\n",
+                          text: "Sign ",
                           style: Theme.of(context).textTheme.displayLarge,
                         ),
                         TextSpan(
-                            text: "Zero Waste Kitchen",
+                            text: "Up",
                             style: Theme.of(context)
                                 .textTheme
                                 .displayLarge!
@@ -65,7 +135,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   Text(
                     "Create your account!",
@@ -79,21 +149,57 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       fontSize: 18,
                     ),
                   ),
-
+                  // upload profile picture
+                  const SizedBox(height: 20.0),
+                  Center(
+                    child: GestureDetector(
+                      onTap: () async {
+                        final XFile? image = await ImagePicker().pickImage(
+                          source: ImageSource.gallery,
+                        );
+                        if (image != null) {
+                          setState(() {
+                            _image = image;
+                          });
+                        }
+                      },
+                      child: Container(
+                        height: 100,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: _image == null
+                            ? const Icon(
+                                Icons.add_a_photo,
+                                color: Colors.grey,
+                                size: 40,
+                              )
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.file(
+                                  File(_image!.path),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20.0),
                   // * Form
                   Form(
                     key: formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(
-                          height: 80,
+                        CustomTextFormField(
+                          controller: nameController,
+                          hintText: "Name",
+                          prefixIcon: Icons.person,
+                          errorText: nameErrorText,
                         ),
-                        Text("Email",
-                            style: Theme.of(context).textTheme.titleLarge),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        const SizedBox(height: 20.0),
                         CustomTextFormField(
                           controller: emailController,
                           hintText: "E-mail",
@@ -101,11 +207,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           errorText: emailErrorText,
                         ),
                         const SizedBox(height: 20.0),
-                        Text("Password",
-                            style: Theme.of(context).textTheme.titleLarge),
-                        const SizedBox(
-                          height: 10,
-                        ),
                         CustomTextFormField(
                           controller: passwordController,
                           hintText: "Password",
@@ -123,48 +224,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 60,
                     width: double.infinity,
                     child: ElevatedButton(
-                        onPressed: () async {
-                          //* check validation
-                          // check email
-                          if (!isEmailValid(emailController.text.trim())) {
-                            emailErrorText = 'Please enter a valid email';
-                          } else {
-                            emailErrorText = null;
-                            setState(() {});
-                          }
-                          // check password
-                          if (passwordController.text.trim().length < 6) {
-                            passwordErrorText =
-                                'Password must have 6 characters or more';
-                            setState(() {});
-                            return;
-                          } else {
-                            passwordErrorText = null;
-                            setState(() {});
-                          }
-                          // here all fields are validated
-                          setState(() {
-                            emailErrorText = null;
-                            passwordErrorText = null;
-                            isLoading = true;
-                          });
-                          // login user
-                          final bool? isRegistered = await context
-                              .read<AuthController>()
-                              .signUp(context, emailController.text.trim(),
-                                  passwordController.text.trim());
-
-                          setState(() {
-                            isLoading = false;
-                          });
-                          if (isRegistered == true) {
-                            // ignore: use_build_context_synchronously
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const MainScreen()));
-                          }
-                        },
+                        onPressed: signup,
                         child: isLoading
                             ? const CircularProgressIndicator(
                                 color: Colors.white)

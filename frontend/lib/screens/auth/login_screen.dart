@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:zero_waste_kitchen/screens/auth/auth_controller.dart';
 import 'package:zero_waste_kitchen/screens/auth/forgot_password_view.dart';
 import 'package:zero_waste_kitchen/screens/auth/signup_screen.dart';
+import 'package:zero_waste_kitchen/screens/screens.dart';
 import 'package:zero_waste_kitchen/utils/utils.dart';
 import 'custom_text_form_field.dart';
 
@@ -197,7 +198,7 @@ class OptionalSignUpWidget extends StatelessWidget {
         TextButton(
           onPressed: () {
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const SignUpScreen()));
+                MaterialPageRoute(builder: (context) => const RoleScreen()));
           },
           child: Text(
             "Sign Up",
