@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:zero_waste_kitchen/screens/auth/auth_controller.dart';
+import 'package:zero_waste_kitchen/services/notification_service.dart';
 import 'package:zero_waste_kitchen/utils/shared_prefs.dart';
 
 import 'package:zero_waste_kitchen/utils/utils.dart';
@@ -20,9 +22,13 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  // static final FirebaseMessaging _firebaseMessaging =
+  //     FirebaseMessaging.instance;
 
   @override
   Widget build(BuildContext context) {
+    // final pushNotificationService = PushNotificationService(_firebaseMessaging);
+    // pushNotificationService.initialise();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthController()),
