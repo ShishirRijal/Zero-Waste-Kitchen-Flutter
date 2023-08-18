@@ -103,11 +103,11 @@ class _CreateDonationPostState extends State<CreateDonationPost> {
     setState(() {
       isLoading = true;
     });
-    String id = const Uuid().v4();
-    id = id.replaceAll('-', '').substring(0, 8);
+    // String id = const Uuid().v4();
+    // id = id.replaceAll('-', '').substring(0, 8);
 
     order.FoodOrder newOrder = order.FoodOrder(
-      id: id,
+      id: 'id',
       userId: currentUser!.id,
       name: _foodNameController.text.trim(),
       description: _foodDescriptionController.text.trim(),

@@ -33,7 +33,7 @@ class HistoryScreen extends StatelessWidget {
                   return const Center(child: Text("Error"));
                 } else {
                   var orders = snapshot.data!;
-                  //now filter
+                  //now filter to current user
                   orders = orders
                       .where((element) => element.userId == currentUser!.id)
                       .toList();

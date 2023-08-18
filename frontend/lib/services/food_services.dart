@@ -45,7 +45,13 @@ class FoodServices {
       final imageUrl = await storageReference.getDownloadURL();
       // update food image link
       foodOrder.imageUrl = imageUrl;
-      await firestore.collection(path).add(foodOrder.toJson());
+      // update the current food id to the firebase document id
+      foodOrder.id = firestore.collection(path).doc().id;
+      // now add food order
+      await firestore
+          .collection(path)
+          .doc(foodOrder.id)
+          .set(foodOrder.toJson());
       return true;
     } catch (e) {
       rethrow;
@@ -76,6 +82,29 @@ class FoodServices {
           .collection('users')
           .doc(currentUser!.id)
           .update({'noOfServices': FieldValue.increment(1)});
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  //* Update the food status to taken/accepted with current user id
+  static Future<void> updateFoodStatus(
+    BuildContext context, {
+    required isDonation,
+    required FoodOrder foodOrder,
+    required String userId,
+  }) async {
+    // Access the Firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    // Update the food order
+    final collection = isDonation ? 'food_donations' : 'food_requests';
+    try {
+      await firestore.collection(collection).doc(foodOrder.id).update({
+        'isTaken': true,
+        'partnerId': userId,
+        'acceptedDateTime': DateTime.now(),
+      });
     } catch (e) {
       rethrow;
     }

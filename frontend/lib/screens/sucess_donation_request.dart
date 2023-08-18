@@ -3,10 +3,26 @@ import 'package:zero_waste_kitchen/screens/main/main_screen.dart';
 import 'package:zero_waste_kitchen/utils/constants.dart';
 
 class SucessDonationRequest extends StatelessWidget {
-  const SucessDonationRequest({super.key});
+  const SucessDonationRequest({this.isTaken = false, super.key});
+  final bool isTaken;
 
   @override
   Widget build(BuildContext context) {
+    final isDonor = currentUser!.isDonor;
+    var title = isDonor
+        ? "Thank You!"
+        : (isTaken && !isDonor)
+            ? "Congragulations!"
+            : "You're all set!";
+
+    var msg = (isDonor && !isTaken)
+        ? "Your donation has been sucessfully shared among all the beneficiaries.\nWe appreciate your contribution."
+        : (isDonor && isTaken)
+            ? "Thank you for your supporting this donation request.\nPlease prepare the food on specified time."
+            : (isTaken && !isDonor)
+                ? "You've confirmed your interest on this donation.\nPlease take your order on specified time"
+                : "Your request has been sucessfully shared among all the donors.\nKeep patience, we will notify you soon.";
+
     return Scaffold(
       backgroundColor: Constants.kPrimaryColor,
       body: Container(
@@ -30,7 +46,7 @@ class SucessDonationRequest extends StatelessWidget {
               height: 20,
             ),
             Text(
-              currentUser!.isDonor ? "Thank You!" : "You're all set!",
+              title,
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                   color: Constants.kWhiteColor, fontWeight: FontWeight.bold),
             ),
@@ -38,9 +54,7 @@ class SucessDonationRequest extends StatelessWidget {
               height: 40,
             ),
             Text(
-              currentUser!.isDonor
-                  ? "Your donation has been sucessfully shared among all the beneficiaries.\nWe appreciate your contribution."
-                  : "Your request has been sucessfully shared among all the donors.\nKeep patience, we will notify you soon.",
+              msg,
               style: Theme.of(context).textTheme.labelLarge!.copyWith(
                   color: Constants.kWhiteColor, fontWeight: FontWeight.w100),
               textAlign: TextAlign.center,
@@ -49,9 +63,7 @@ class SucessDonationRequest extends StatelessWidget {
               height: 40,
             ),
             Text(
-              currentUser!.isDonor
-                  ? "\"Be ready with your food!\""
-                  : "\"Be ready to receive your food!\"",
+              "\"Zero Waste Kitchen\"",
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     color: Constants.kWhiteColor,

@@ -18,6 +18,7 @@ class FoodOrder {
   bool isTaken;
   DateTime? acceptedDateTime;
   String location;
+  String? partnerId;
 
   // name constructor
   FoodOrder({

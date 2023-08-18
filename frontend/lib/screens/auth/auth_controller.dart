@@ -144,7 +144,7 @@ class AuthController extends ChangeNotifier {
     await FirebaseAuth.instance.signOut();
     // update the shared prefs
     // ignore: use_build_context_synchronously
-    await context.read<SharedPrefs>().clearAuthStatus();
+    context.read<SharedPrefs>().clearAuthStatus();
     // clear user
     notifyListeners();
   }
