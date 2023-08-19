@@ -65,11 +65,11 @@ class _MainScreenState extends State<MainScreen> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
-                  } else
-                  // if (currentUser != null)
-                  {
+                  } else {
+                    print("user name=> ${currentUser!.name}");
                     return _screens[_currentIndex];
                   }
+
                   // else {
                   //   return Padding(
                   //     padding: const EdgeInsets.all(10.0),

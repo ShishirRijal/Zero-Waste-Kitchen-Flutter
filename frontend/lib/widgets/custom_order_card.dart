@@ -47,7 +47,7 @@ class CustomOrderCard extends StatelessWidget {
                 children: [
                   FittedBox(
                     child: Text(
-                        "ID: ${order.id.substring(0, max(order.id.length - 1, 8))}",
+                        "ID: ${order.id.substring(0, min(order.id.length - 1, 8))}",
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontSize: 16, fontWeight: FontWeight.w700)),
                   ),

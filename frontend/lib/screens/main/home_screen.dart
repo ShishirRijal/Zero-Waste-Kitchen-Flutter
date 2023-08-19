@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(currentUser!.isDonor ? 'Donation Requests' : 'Donations'),
+          title: const Text('Donations'),
           backgroundColor: Constants.kPrimaryColor,
           centerTitle: true,
           automaticallyImplyLeading: false,

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 import 'package:zero_waste_kitchen/models/food_order.dart';
 import 'package:zero_waste_kitchen/screens/main/main_screen.dart';
 import 'package:zero_waste_kitchen/services/food_services.dart';
 import 'package:zero_waste_kitchen/widgets/popups.dart';
-import 'package:zero_waste_kitchen/utils/constants.dart';
 
 import 'sucess_donation_request.dart';
 
@@ -25,12 +24,13 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           foodOrder: foodOrder,
           userId: currentUser!.id);
       // show a success screen and go to home screen
+      // ignore: use_build_context_synchronously
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => SucessDonationRequest(isTaken: true)));
+              builder: (context) =>
+                  const SucessDonationRequest(isTaken: true)));
     } catch (e) {
-      print(e.toString());
       showDialog(
           context: context,
           builder: (context) => const ErrorPopup(
@@ -48,100 +48,83 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: Container(
-          width: double.maxFinite,
-          height: 900,
-          color: Constants.kWhiteColor,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Expanded(
-                  flex: 1,
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(20)),
-                    child: Image.network(
-                      'https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-                      fit: BoxFit.fill,
-                    ),
+              SizedBox(
+                height: 250,
+                width: double.infinity,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
+                  child: Image.network(
+                    widget.foodOrder.imageUrl,
+                    fit: BoxFit.fill,
                   ),
                 ),
               ), //image
-              Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Constants.kWhiteColor,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    width: double.maxFinite,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(top: 15, right: 8, left: 8),
-                          child: Text(
-                            "Description",
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .copyWith(
-                                  fontSize: 17,
-                                  color: Colors.grey,
-                                ),
-                          ),
-                        ), //String "description"
-
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "This is the Description Box. Write the description of food.",
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .copyWith(fontSize: 17),
-                          ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 15),
+                  Text(
+                    "Description:",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(fontSize: 18),
+                  ), //String "description"
+                  //
+                  Text(
+                    widget.foodOrder.description,
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
                         ),
-
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Text(
-                            "Food Details",
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .copyWith(
-                                  fontSize: 17,
-                                  color: Colors.grey,
-                                ),
-                          ),
-                        ), //String"Food Details"
-
-                        const FoodDetailsContainer(),
-
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Flexible(
-                          child: FractionallySizedBox(
-                            heightFactor: 0.6,
-                            widthFactor: 1,
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              child: const Text(
-                                "Take an Order",
-                              ),
-                            ),
-                          ),
-                        ), //elevatedbutton
-                      ],
+                  ),
+                  //
+                  const SizedBox(height: 15),
+                  Text(
+                    "Food Details",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(fontSize: 18),
+                  ), //String"Food Details"
+                  //
+                  FoodDetails(widget.foodOrder),
+                  //
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 60,
+                    child: ElevatedButton(
+                      style: widget.foodOrder.isTaken
+                          ? ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.black),
+                            )
+                          : null,
+                      onPressed: widget.foodOrder.isTaken
+                          ? null
+                          : () {
+                              takeOrder(widget.foodOrder);
+                            },
+                      child: Text(
+                        widget.foodOrder.isTaken
+                            ? "Already Taken"
+                            : currentUser!.isDonor
+                                ? "Accept Request"
+                                : "Accept Donation",
+                      ),
                     ),
                   ),
-                ),
+                  //       ),
+                ],
               ),
+              // ),
             ],
           ),
         ),
@@ -155,7 +138,7 @@ class CustomText extends StatelessWidget {
 
   final String topicDetail;
 
-  CustomText({super.key, required this.topic, required this.topicDetail});
+  const CustomText({super.key, required this.topic, required this.topicDetail});
 
   @override
   Widget build(BuildContext context) {
@@ -163,21 +146,18 @@ class CustomText extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Padding(
-          padding: const EdgeInsets.all(5.0),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           child: Text(
             topic,
-            style:
-                Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 17),
+            style: const TextStyle(
+                fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(5.0),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           child: Text(
             topicDetail,
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
-                .copyWith(color: Colors.grey, fontSize: 17),
+            style: TextStyle(fontSize: 16, color: Colors.grey[700]),
           ),
         ),
       ],
@@ -186,57 +166,12 @@ class CustomText extends StatelessWidget {
 }
 
 class FoodDetails extends StatelessWidget {
-  const FoodDetails({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        CustomText(topic: "Donor ", topicDetail: "ICES"),
-        Divider(
-          thickness: 1,
-          color: Colors.grey.withOpacity(0.3),
-        ),
-        CustomText(topic: "Food Name", topicDetail: "MASU BHAT"),
-        Divider(
-          thickness: 1,
-          color: Colors.grey.withOpacity(0.3),
-        ),
-        CustomText(topic: "Issued Date", topicDetail: "2023-08-19"),
-        Divider(
-          thickness: 1,
-          color: Colors.grey.withOpacity(0.3),
-        ),
-        CustomText(topic: "Expiry Date", topicDetail: "2023-08-20"),
-        Divider(
-          thickness: 1,
-          color: Colors.grey.withOpacity(0.3),
-        ),
-        CustomText(topic: "Type", topicDetail: "Non-Veg"),
-        Divider(
-          thickness: 1,
-          color: Colors.grey.withOpacity(0.3),
-        ),
-        CustomText(topic: "Address", topicDetail: "Pokhara"),
-        Divider(
-          thickness: 1,
-          color: Colors.grey.withOpacity(0.3),
-        ),
-        CustomText(topic: "Food Quantity", topicDetail: "4"),
-      ],
-    );
-  }
-}
-
-class FoodDetailsContainer extends StatelessWidget {
-  const FoodDetailsContainer({super.key});
+  const FoodDetails(this.foodOrder, {super.key});
+  final FoodOrder foodOrder;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 350,
-      width: double.maxFinite,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(20)),
         color: Colors.white,
@@ -245,7 +180,69 @@ class FoodDetailsContainer extends StatelessWidget {
           width: 1.0,
         ),
       ),
-      child: const FoodDetails(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          SizedBox(height: 7),
+          // CustomText(
+          //     topic: "Donor ", topicDetail: foodOrder.userId.substring(0, 8)),
+          // Divider(
+          //   thickness: 1,
+          //   color: Colors.grey.withOpacity(0.3),
+          // ),
+          CustomText(topic: "Food Name", topicDetail: foodOrder.name),
+          Divider(
+            thickness: 1,
+            color: Colors.grey.withOpacity(0.3),
+          ),
+          CustomText(
+              topic: "Cooking Date",
+              topicDetail:
+                  DateFormat('MMM d, y').format(foodOrder.cookDateTime)),
+          Divider(
+            thickness: 1,
+            color: Colors.grey.withOpacity(0.3),
+          ),
+          CustomText(
+              topic: "Cooking Time",
+              topicDetail: DateFormat('h:mma').format(foodOrder.cookDateTime)),
+          Divider(
+            thickness: 1,
+            color: Colors.grey.withOpacity(0.3),
+          ),
+          CustomText(
+              topic: "Expiry Date",
+              topicDetail:
+                  DateFormat('MMM d, y').format(foodOrder.cookDateTime)),
+          Divider(
+            thickness: 1,
+            color: Colors.grey.withOpacity(0.3),
+          ),
+          CustomText(
+              topic: "Expiry Date",
+              topicDetail: DateFormat('h:mma').format(foodOrder.cookDateTime)),
+          Divider(
+            thickness: 1,
+            color: Colors.grey.withOpacity(0.3),
+          ),
+          CustomText(
+              topic: "Type",
+              topicDetail: foodOrder.type.name == 'veg' ? 'Veg' : 'Non-Veg'),
+          Divider(
+            thickness: 1,
+            color: Colors.grey.withOpacity(0.3),
+          ),
+          CustomText(topic: "Address", topicDetail: foodOrder.location),
+          Divider(
+            thickness: 1,
+            color: Colors.grey.withOpacity(0.3),
+          ),
+          CustomText(
+              topic: "Food Quantity",
+              topicDetail: "${foodOrder.quantity} Person(s)"),
+          SizedBox(height: 7),
+        ],
+      ),
     );
   }
 }
