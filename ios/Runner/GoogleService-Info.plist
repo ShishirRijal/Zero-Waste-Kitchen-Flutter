@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1071489602786-asnkbhlebh0o1s630ai4sf4bs3ktrrv4.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1071489602786-asnkbhlebh0o1s630ai4sf4bs3ktrrv4</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDrXTnj7FkappdLDrlMcXZbD_fudY6AgyA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1071489602786</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>np.com.shishirrijal.zero-waste-kitchen</string>
+	<key>PROJECT_ID</key>
+	<string>zero-waste-kitchen-90cee</string>
+	<key>STORAGE_BUCKET</key>
+	<string>zero-waste-kitchen-90cee.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1071489602786:ios:458dabbb3c568279ac3abb</string>
+</dict>
+</plist>

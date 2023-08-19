@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "np.com.shishirrijal.zero_waste_kitchen.app-merged_res-29:/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "np.com.shishirrijal.zero_waste_kitchen.app-main-22:/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "np.com.shishirrijal.zero_waste_kitchen.app-merged_res-29:/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "np.com.shishirrijal.zero_waste_kitchen.app-main-22:/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "np.com.shishirrijal.zero_waste_kitchen.app-merged_res-29:/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "np.com.shishirrijal.zero_waste_kitchen.app-main-22:/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "np.com.shishirrijal.zero_waste_kitchen.app-merged_res-29:/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "np.com.shishirrijal.zero_waste_kitchen.app-main-22:/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "np.com.shishirrijal.zero_waste_kitchen.app-merged_res-29:/drawable-v21_launch_background.xml.flat",
+        "source": "np.com.shishirrijal.zero_waste_kitchen.app-main-22:/drawable-v21/launch_background.xml"
+    },
+    {
+        "merged": "np.com.shishirrijal.zero_waste_kitchen.app-merged_res-29:/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "np.com.shishirrijal.zero_waste_kitchen.app-main-22:/mipmap-xxxhdpi/ic_launcher.png"
+    }
+]
