@@ -47,116 +47,140 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         title: const Text("Details"),
         centerTitle: true,
       ),
-      body: Container(
-        width: double.maxFinite,
-        height: double.maxFinite,
-        child: Stack(
-          children: [
-            Container(
-              height: 300,
-              width: double.maxFinite,
-              child: Image.network(
-                'https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-                fit: BoxFit.fill,
+      body: SingleChildScrollView(
+        child: Container(
+          width: double.maxFinite,
+          height: 900,
+          color: Constants.kWhiteColor,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Expanded(
+                  flex: 1,
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    child: Image.network(
+                      'https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+              ), //image
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Constants.kWhiteColor,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    width: double.maxFinite,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(top: 15, right: 8, left: 8),
+                          child: Text(
+                            "Description",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(
+                                  fontSize: 17,
+                                  color: Colors.grey,
+                                ),
+                          ),
+                        ), //String "description"
+
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "This is the Description Box. Write the description of food.",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(fontSize: 17),
+                          ),
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            "Food Details",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(
+                                  fontSize: 17,
+                                  color: Colors.grey,
+                                ),
+                          ),
+                        ), //String"Food Details"
+
+                        const FoodDetailsContainer(),
+
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Flexible(
+                          child: FractionallySizedBox(
+                            heightFactor: 0.6,
+                            widthFactor: 1,
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              child: const Text(
+                                "Take an Order",
+                              ),
+                            ),
+                          ),
+                        ), //elevatedbutton
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            ),
-            DraggableScrollableSheet(
-              initialChildSize: 0.65,
-              minChildSize: 0.65,
-              maxChildSize: 0.75,
-              builder: (context, scrollController) {
-                return SingleChildScrollView(
-                  controller: scrollController,
-                  child: OverlayContainer(),
-                );
-              },
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class OverlayContainer extends StatefulWidget {
-  const OverlayContainer({super.key});
+class CustomText extends StatelessWidget {
+  final String topic;
 
-  @override
-  State<OverlayContainer> createState() => _OverlayContainerState();
-}
+  final String topicDetail;
 
-class _OverlayContainerState extends State<OverlayContainer> {
+  CustomText({super.key, required this.topic, required this.topicDetail});
+
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: 250,
-      left: 0,
-      right: 0,
-      child: Container(
-        width: double.infinity,
-        height: 500,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(40),
-            topLeft: Radius.circular(40),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Text(
+            topic,
+            style:
+                Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 17),
           ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Text(
-                "HAMRO RESTRO",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(fontSize: 30),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
-              child: Container(
-                width: 350,
-                height: 205,
-                decoration: BoxDecoration(
-                  color: Colors.blue[200],
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: const FoodDetails(),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 15, top: 8),
-              child: Text(
-                "Description of the food:",
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 15, bottom: 8),
-              child: Text(
-                "Tkjdcjkbdcbdcjbjhdbccdjbhjsbdcjhbschjbcbcbjbjchbcjbkjbcjbc",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(fontSize: 18, color: Colors.grey),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: ElevatedButton(
-                onPressed: () {},
-                child: const Text("Take Order"),
-              ),
-            )
-          ],
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Text(
+            topicDetail,
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge!
+                .copyWith(color: Colors.grey, fontSize: 17),
+          ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -167,34 +191,61 @@ class FoodDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text(
-          "Food Name: Masu Bhat",
-          style: Theme.of(context).textTheme.titleLarge,
+        CustomText(topic: "Donor ", topicDetail: "ICES"),
+        Divider(
+          thickness: 1,
+          color: Colors.grey.withOpacity(0.3),
         ),
-        Text(
-          "Issued Date: 2023-08-18",
-          style: Theme.of(context).textTheme.titleLarge,
+        CustomText(topic: "Food Name", topicDetail: "MASU BHAT"),
+        Divider(
+          thickness: 1,
+          color: Colors.grey.withOpacity(0.3),
         ),
-        Text(
-          "Expiry Date:2023-08-19 ",
-          style: Theme.of(context).textTheme.titleLarge,
+        CustomText(topic: "Issued Date", topicDetail: "2023-08-19"),
+        Divider(
+          thickness: 1,
+          color: Colors.grey.withOpacity(0.3),
         ),
-        Text(
-          "Type: Non-Veg",
-          style: Theme.of(context).textTheme.titleLarge,
+        CustomText(topic: "Expiry Date", topicDetail: "2023-08-20"),
+        Divider(
+          thickness: 1,
+          color: Colors.grey.withOpacity(0.3),
         ),
-        Text(
-          "Address: Pokhara",
-          style: Theme.of(context).textTheme.titleLarge,
+        CustomText(topic: "Type", topicDetail: "Non-Veg"),
+        Divider(
+          thickness: 1,
+          color: Colors.grey.withOpacity(0.3),
         ),
-        Text(
-          "Food Quantity (in person): 4",
-          style: Theme.of(context).textTheme.titleLarge,
+        CustomText(topic: "Address", topicDetail: "Pokhara"),
+        Divider(
+          thickness: 1,
+          color: Colors.grey.withOpacity(0.3),
         ),
+        CustomText(topic: "Food Quantity", topicDetail: "4"),
       ],
+    );
+  }
+}
+
+class FoodDetailsContainer extends StatelessWidget {
+  const FoodDetailsContainer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 350,
+      width: double.maxFinite,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        color: Colors.white,
+        border: Border.all(
+          color: Colors.grey.withOpacity(0.3),
+          width: 1.0,
+        ),
+      ),
+      child: const FoodDetails(),
     );
   }
 }
