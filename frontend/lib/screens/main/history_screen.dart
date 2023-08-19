@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:zero_waste_kitchen/screens/main/main_screen.dart';
 import 'package:zero_waste_kitchen/services/food_services.dart';
 import 'package:zero_waste_kitchen/utils/constants.dart';
@@ -39,7 +38,13 @@ class HistoryScreen extends StatelessWidget {
                       .toList();
                   return orders.isEmpty
                       ? Center(
-                          child: LottieBuilder.asset('assets/json/empty.json'))
+                          child: Text("You have no history yet",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .copyWith(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold)))
                       : ListView.separated(
                           itemCount: orders.length,
                           separatorBuilder: (context, index) =>
