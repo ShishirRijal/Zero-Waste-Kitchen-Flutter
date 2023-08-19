@@ -1,4 +1,5 @@
 .idea
 .dart_tool
-.build
+build/
 lib/firebase_options.dart
+android/app/.DS_Store

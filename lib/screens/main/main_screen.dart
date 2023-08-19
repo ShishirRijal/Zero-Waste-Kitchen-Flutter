@@ -32,8 +32,9 @@ class _MainScreenState extends State<MainScreen> {
     ProfileScreen(),
   ];
 
-  Future<void> getCurrentUser() async {
+  Future<User?> getCurrentUser() async {
     currentUser = await context.read<AuthController>().getCurrentUser();
+    return currentUser;
   }
 
   @override
@@ -65,9 +66,11 @@ class _MainScreenState extends State<MainScreen> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
-                  } else {
-                    print("user name=> ${currentUser!.name}");
+                  }
+                  if (snapshot.hasData && snapshot.data != null) {
                     return _screens[_currentIndex];
+                  } else {
+                    return const Text("Something went wrong");
                   }
 
                   // else {
