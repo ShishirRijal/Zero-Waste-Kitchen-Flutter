@@ -59,16 +59,20 @@ class FoodServices {
   }
 
   // * Accept a food order
-  static Future<void> acceptFood(FoodOrder foodOrder, bool isDonation) async {
+  static Future<void> acceptFood(
+      BuildContext context, FoodOrder foodOrder, bool isDonation) async {
     String path = isDonation ? 'food_donations' : 'food_requests';
     // Access the Firestore instance
     FirebaseFirestore firestore = FirebaseFirestore.instance;
 
     // Update the food order
-    await firestore
-        .collection(path)
-        .doc(foodOrder.id)
-        .update({'isTaken': true});
+    await firestore.collection(path).doc(foodOrder.id).update({
+      'isTaken': true,
+      'acceptedDateTime': DateTime.now().toIso8601String(),
+      'partnerId': currentUser!.id,
+    });
+    // now update the user service count
+    await updateServiceCount(context);
   }
 
   //* Update user service count
@@ -87,26 +91,26 @@ class FoodServices {
     }
   }
 
-  //* Update the food status to taken/accepted with current user id
-  static Future<void> updateFoodStatus(
-    BuildContext context, {
-    required isDonation,
-    required FoodOrder foodOrder,
-    required String userId,
-  }) async {
-    // Access the Firestore instance
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
+  // //* Update the food status to taken/accepted with current user id
+  // static Future<void> updateFoodStatus(
+  //   BuildContext context, {
+  //   required isDonation,
+  //   required FoodOrder foodOrder,
+  //   required String userId,
+  // }) async {
+  //   // Access the Firestore instance
+  //   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-    // Update the food order
-    final collection = isDonation ? 'food_donations' : 'food_requests';
-    try {
-      await firestore.collection(collection).doc(foodOrder.id).update({
-        'isTaken': true,
-        'partnerId': userId,
-        'acceptedDateTime': DateTime.now(),
-      });
-    } catch (e) {
-      rethrow;
-    }
-  }
+  //   // Update the food order
+  //   final collection = isDonation ? 'food_donations' : 'food_requests';
+  //   try {
+  //     await firestore.collection(collection).doc(foodOrder.id).update({
+  //       'isTaken': true,
+  //       'partnerId': userId,
+  //       'acceptedDateTime': DateTime.now(),
+  //     });
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
 }

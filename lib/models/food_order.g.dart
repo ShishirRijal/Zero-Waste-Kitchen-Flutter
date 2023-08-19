@@ -21,7 +21,7 @@ FoodOrder _$FoodOrderFromJson(Map<String, dynamic> json) => FoodOrder(
           ? null
           : DateTime.parse(json['acceptedDateTime'] as String),
       location: json['location'] as String? ?? 'unknown',
-    );
+    )..partnerId = json['partnerId'] as String?;
 
 Map<String, dynamic> _$FoodOrderToJson(FoodOrder instance) => <String, dynamic>{
       'id': instance.id,
@@ -36,6 +36,7 @@ Map<String, dynamic> _$FoodOrderToJson(FoodOrder instance) => <String, dynamic>{
       'isTaken': instance.isTaken,
       'acceptedDateTime': instance.acceptedDateTime?.toIso8601String(),
       'location': instance.location,
+      'partnerId': instance.partnerId,
     };
 
 const _$FoodTypeEnumMap = {

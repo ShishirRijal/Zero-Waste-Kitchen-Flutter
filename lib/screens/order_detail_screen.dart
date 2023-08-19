@@ -19,10 +19,7 @@ class OrderDetailScreen extends StatefulWidget {
 class _OrderDetailScreenState extends State<OrderDetailScreen> {
   void takeOrder(FoodOrder foodOrder) async {
     try {
-      await FoodServices.updateFoodStatus(context,
-          isDonation: !currentUser!.isDonor,
-          foodOrder: foodOrder,
-          userId: currentUser!.id);
+      await FoodServices.acceptFood(context, foodOrder, !currentUser!.isDonor);
       // show a success screen and go to home screen
       // ignore: use_build_context_synchronously
       Navigator.push(
