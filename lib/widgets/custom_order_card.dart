@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:zero_waste_kitchen/utils/utils.dart';
 
 import '../models/food_order.dart';
 import '../screens/order_detail_screen.dart';
@@ -56,7 +57,7 @@ class CustomOrderCard extends StatelessWidget {
                   const SizedBox(width: 10),
                   FittedBox(
                     child: Text(
-                        "${DateTime.now().difference(order.cookDateTime).inHours} hours ago",
+                        formatDuration(DateTime.now().difference(order.cookDateTime),), 
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium!

@@ -8,8 +8,10 @@ import 'package:zero_waste_kitchen/screens/main/main_screen.dart';
 
 class FoodServices {
 //* Fetch all food orders
-  static Future<List<FoodOrder>> getFoods({required getDonations}) async {
+  static Future<List<FoodOrder>> getFoods(
+      {required getDonations, bool getAll = false}) async {
     String path = getDonations ? 'food_donations' : 'food_requests';
+    String notSelectedPath = getDonations ? 'food_requests' : 'food_donations';
     // Access the Firestore instance
     FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -22,6 +24,19 @@ class FoodServices {
       Map<String, dynamic> data = document.data() as Map<String, dynamic>;
       FoodOrder foodOrder = FoodOrder.fromJson(data);
       foodOrders.add(foodOrder);
+    }
+
+    // ! for history also query the food orders collection
+    if (getAll) {
+      QuerySnapshot querySnapshot =
+          await firestore.collection(notSelectedPath).get();
+
+      // Extract data from the query snapshot
+      for (var document in querySnapshot.docs) {
+        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+        FoodOrder foodOrder = FoodOrder.fromJson(data);
+        foodOrders.add(foodOrder);
+      }
     }
 
     return foodOrders;

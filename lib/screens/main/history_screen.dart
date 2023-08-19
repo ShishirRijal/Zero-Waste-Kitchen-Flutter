@@ -24,7 +24,8 @@ class HistoryScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(
               horizontal: Constants.kHorizontalPadding, vertical: 20),
           child: FutureBuilder(
-              future: FoodServices.getFoods(getDonations: currentUser!.isDonor),
+              future: FoodServices.getFoods(
+                  getDonations: currentUser!.isDonor, getAll: true),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -36,6 +37,17 @@ class HistoryScreen extends StatelessWidget {
                   orders = orders
                       .where((element) => element.userId == currentUser!.id)
                       .toList();
+
+                  orders.sort((a, b) {
+                    if (a.isTaken && !b.isTaken) {
+                      return 1; // Order a after b
+                    } else if (!a.isTaken && b.isTaken) {
+                      return -1; // Order a before b
+                    } else {
+                      return 0; // No change in order
+                    }
+                  });
+
                   return orders.isEmpty
                       ? Center(
                           child: Text("You have no history yet",

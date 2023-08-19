@@ -18,9 +18,7 @@ class AuthWrapper extends StatelessWidget {
                 child: CircularProgressIndicator(
               strokeWidth: 3,
             ));
-          } 
-          
-          else if (snapshot.data == false) {
+          } else if (snapshot.data == false) {
             return const LandingScreen();
           } else {
             return FutureBuilder(

@@ -84,7 +84,7 @@ class SucessDonationRequest extends StatelessWidget {
                       MaterialStatePropertyAll(Constants.kSuccessColor),
                 ),
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const MainScreen()));

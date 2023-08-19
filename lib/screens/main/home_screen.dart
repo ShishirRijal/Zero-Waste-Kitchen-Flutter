@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Donations'),
+          title: const Text(  'Donations'),
           backgroundColor: Constants.kPrimaryColor,
           centerTitle: true,
           automaticallyImplyLeading: false,
@@ -40,7 +40,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 return const Center(child: Text('An Unknown Error Occured!'));
               } else {
                 List<FoodOrder> foods = snapshot.data as List<FoodOrder>;
-
+ foods.sort((a, b) {
+                    if (a.isTaken && !b.isTaken) {
+                      return 1; // Order a after b
+                    } else if (!a.isTaken && b.isTaken) {
+                      return -1; // Order a before b
+                    } else {
+                      return 0; // No change in order
+                    }
+                  });
                 return foods.isEmpty
                     ? Center(
                         child: LottieBuilder.asset('assets/json/empty.json'))

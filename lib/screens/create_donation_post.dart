@@ -131,7 +131,7 @@ class _CreateDonationPostState extends State<CreateDonationPost> {
             setState(() {
               isLoading = false;
             });
-            Navigator.push(
+            Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                     builder: (context) => const SucessDonationRequest()));
