@@ -4,6 +4,7 @@ import 'package:zero_waste_kitchen/screens/auth/auth_controller.dart';
 import 'package:zero_waste_kitchen/screens/auth/forgot_password_view.dart';
 import 'package:zero_waste_kitchen/screens/screens.dart';
 import 'package:zero_waste_kitchen/utils/utils.dart';
+import '../../utils/shared_prefs.dart';
 import 'custom_text_form_field.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -22,6 +23,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Provider.of<SharedPrefs>(context)
+    //     .getOnboardingStatus()
+    //     .then((value) => print('status => $value'));
+    // SharedPrefs.clearOnboardingStatus();
+    // Provider.of<SharedPrefs>(context)
+    //     .getOnboardingStatus()
+    //     .then((value) => print('status after => $value'));
     return Scaffold(
       resizeToAvoidBottomInset: false,
       //prevention of bottom pixel overflow when keyboard pop up
@@ -96,6 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   hintText: "Create a strong password",
                   prefixIcon: Icons.lock,
                   errorText: passwordErrorText,
+                  isPassword: true,
                 ),
                 const SizedBox(
                   height: 5,

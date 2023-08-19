@@ -36,7 +36,7 @@ class SharedPrefs extends ChangeNotifier {
   Future<bool> getOnboardingStatus() async {
     final prefs = await SharedPreferences.getInstance();
     final bool? status = prefs.getBool(isOnboardingCompleted);
-    return status != null;
+    return !(status == null || status == false);
   }
 
   static Future<void> clearOnboardingStatus() async {

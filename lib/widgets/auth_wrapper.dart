@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:zero_waste_kitchen/screens/auth/auth_controller.dart';
 import 'package:zero_waste_kitchen/screens/main/main_screen.dart';
 import 'package:zero_waste_kitchen/screens/screens.dart';
+import 'package:zero_waste_kitchen/utils/shared_prefs.dart';
 
 class AuthWrapper extends StatelessWidget {
   const AuthWrapper({super.key});
@@ -10,19 +11,35 @@ class AuthWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data == true) {
-            return const MainScreen();
+        future: Provider.of<SharedPrefs>(context).getOnboardingStatus(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+                child: CircularProgressIndicator(
+              strokeWidth: 3,
+            ));
+          } 
+          
+          else if (snapshot.data == false) {
+            return const LandingScreen();
           } else {
-            return const LoginScreen();
+            return FutureBuilder(
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.data == true) {
+                    return const MainScreen();
+                  } else {
+                    return const LoginScreen();
+                  }
+                } else {
+                  return const LandingScreen();
+                }
+              },
+              future:
+                  Provider.of<AuthController>(context).isUserAuthenticated(),
+            );
           }
-        } else {
-          return const LandingScreen();
-        }
-      },
-      future: Provider.of<AuthController>(context).isUserAuthenticated(),
-    );
+        });
 
     // first check for onboarding
     // return FutureBuilder(
