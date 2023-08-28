@@ -52,3 +52,27 @@ Follow these instructions to get the project up and running on your local machin
 
 ```bash
 git clone https://github.com/ShishirRijal/zero-waste-kitchen.git
+```
+2. Navigate to the project directory:
+
+```bash
+cd zero-waste-kitchen
+```
+3. Open the project in your favourite IDE
+4. Get flutter dependencies
+```bash
+flutter pub get
+```
+5. Add firebase configuration
+
+The project utilizes Firebase services for authentication, real-time database, and cloud messaging. To configure Firebase, follow these steps:
+<ul>
+  <li>Create a Firebase project at the Firebase Console.</li>
+<li>Generate and download the google-services.json file for Android and GoogleService-Info.plist file for iOS.</li>
+<li>  Place these files in the respective platform directories: </li>  
+  <ul>
+    <li>For Android: android/app/google-services.json </li>
+    <li>For iOS: ios/Runner/GoogleService-Info.plist </li>
+  </ul>
+<b>For more details on Firebase configuration, refer to the official FlutterFire documentation. </b>
+</ul>
