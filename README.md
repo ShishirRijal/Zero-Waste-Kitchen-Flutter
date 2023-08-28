@@ -85,7 +85,7 @@ Contributions are welcomed! You can start contributing to the Zero Waste Kitchen
 
 
 ### Login 
-<img src="assets/screenshots/login.jpeg" width="300" height="600">
+<img src="assets/screenshots/login.jpeg" width="300" height="600"> <img src="assets/screenshots/login-error.jpeg" width="300" height="600"> <img src="assets/screenshots/login-error1.jpeg" width="300" height="600"> 
 
  ### Home | Donations | Donation Detail Overview
  <img src="assets/screenshots/home.jpeg" width="300" height="600"> <img src="assets/screenshots/donation-detail1.jpeg" width="300" height="600"> <img src="assets/screenshots/donation-detail.jpeg" width="300" height="600"> <img src="assets/screenshots/donation2-1.jpeg" width="300" height="600">  <img src="assets/screenshots/donation2.jpeg" width="300" height="600"> 
