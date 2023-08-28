@@ -73,7 +73,7 @@ The project utilizes Firebase services for authentication, real-time database, a
 </ul>
 
 ## License
-This project is licensed under the MIT License.
+This project is licensed under the Apache License 2.0
 
 ## Contribution
 Contributions are welcomed! You can start contributing to the Zero Waste Kitchen project right now.
