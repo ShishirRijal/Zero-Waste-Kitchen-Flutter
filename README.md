@@ -8,13 +8,15 @@ Welcome to the **Zero Waste Kitchen** project repository! This is a Flutter-base
 
 - [About](#about)
 - [Features](#features)
-- [Screenshots](#screenshots)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-- [Firebase Configuration](#firebase-configuration)
-- [Contributing](#contributing)
+- [Firebase Configuration](#add-firebase-configuration)  
 - [License](#license)
+- [Contributing](#contribution)
+- [Screenshots](#screenshots)
+
+
 
 ## About
 
@@ -30,13 +32,6 @@ The **Zero Waste Kitchen** project was inspired by the idea of promoting sustain
 - User profiles and preferences
 - Admin dashboard to manage organizations and listings
 
-<!--
-## Screenshots
-
-![Screenshot 1](screenshots/screenshot1.png)
-![Screenshot 2](screenshots/screenshot2.png)
-![Screenshot 3](screenshots/screenshot3.png)
--->
 ## Getting Started
 
 Follow these instructions to get the project up and running on your local machine.
@@ -76,3 +71,34 @@ The project utilizes Firebase services for authentication, real-time database, a
   </ul>
 <b>For more details on Firebase configuration, refer to the official FlutterFire documentation. </b>
 </ul>
+
+## License
+This project is licensed under the MIT License.
+
+## Contribution
+Contributions are welcomed! You can start contributing to the Zero Waste Kitchen project right now.
+
+## Screenshots
+
+### Sign Up | Create new account
+<img src="assets/screenshots/select-role.jpeg" width="300" height="600"> <img src="assets/screenshots/signup.jpeg" width="300" height="600"> <img src="assets/screenshots/signup1.jpeg" width="300" height="600"> <img src="assets/screenshots/signup-filled.jpeg" width="300" height="600"> <img src="assets/screenshots/signup-error.jpeg" width="300" height="600"> 
+
+
+### Login 
+<img src="assets/screenshots/login.jpeg" width="300" height="600">
+
+ ### Home | Donations | Donation Detail Overview
+ <img src="assets/screenshots/home.jpeg" width="300" height="600"> <img src="assets/screenshots/donation-detail1.jpeg" width="300" height="600"> <img src="assets/screenshots/donation-detail.jpeg" width="300" height="600"> <img src="assets/screenshots/donation2-1.jpeg" width="300" height="600">  <img src="assets/screenshots/donation2.jpeg" width="300" height="600"> 
+
+ ### Create Donation
+ <img src="assets/screenshots/create-donation.jpeg" width="300" height="600"> <img src="assets/screenshots/create-donation2.jpeg" width="300" height="600">
+
+### Donors And Beneficiaries
+<img src="assets/screenshots/donors.jpeg" width="300" height="600"> <img src="assets/screenshots/beneficiaries.jpeg" width="300" height="600">
+
+### Donation History 
+ <img src="assets/screenshots/donation-history.jpeg" width="300" height="600">
+
+### Donor/Beneficiary Profile
+  <img src="assets/screenshots/profile.jpeg" width="300" height="600">
+ 
